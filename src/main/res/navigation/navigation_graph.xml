@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.phoenix.socialmedia.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/action_loginFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.phoenix.socialmedia.addPost.AddPostFragment"
+        android:label="Addt"
+        tools:layout="@layout/add_post_fragment">
+        <action
+            android:id="@+id/action_addPostFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.phoenix.socialmedia.homepage.HomePageFragment"
+        android:label="Instagram"
+        tools:layout="@layout/home_page_fragment">
+        <action
+            android:id="@+id/action_homePageFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/homePageFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homePageFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment"
+            app:enterAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.phoenix.socialmedia.profile.UserProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.phoenix.socialmedia.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_searchFragment_to_searchedProfileFragment"
+            app:destination="@id/searchedProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchedProfileFragment"
+        android:name="com.phoenix.socialmedia.profile.SearchedProfileFragment"
+        android:label="Searched User">
+        <argument
+            android:name="profile"
+            app:argType="com.phoenix.socialmedia.data.Profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.phoenix.socialmedia.camera.CameraFragment"
+        android:label="Camera"
+        tools:layout="@layout/camera_fragment" >
+        <action
+            android:id="@+id/action_cameraFragment_to_loadClickedImageFragment"
+            app:destination="@id/loadClickedImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loadClickedImageFragment"
+        android:name="com.phoenix.socialmedia.camera.LoadClickedImageFragment"
+        android:label="load_clicked_image_fragment"
+        tools:layout="@layout/load_clicked_image_fragment" >
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+    </fragment>
+</navigation>

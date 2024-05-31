@@ -1,0 +1,36 @@
+package com.phoenix.socialmedia.profile.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.phoenix.socialmedia.R
+import com.phoenix.socialmedia.data.Post
+import com.phoenix.socialmedia.databinding.UserProfileRecyclerViewBinding
+import com.squareup.picasso.Picasso
+
+class UserPostAdapter(private var post: ArrayList<Post>)  :RecyclerView.Adapter<UserPostAdapter.UserPostViewHolder>(){
+
+    lateinit var binding: UserProfileRecyclerViewBinding
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserPostViewHolder {
+
+        binding = UserProfileRecyclerViewBinding.inflate(LayoutInflater.from(parent.context),parent, false)
+        return UserPostViewHolder(binding.root)
+    }
+
+    override fun onBindViewHolder(holder: UserPostViewHolder, position: Int) {
+
+        val currentItem = post[position]
+
+        Picasso.get().load(currentItem.imageUrl).resize(500,500).centerCrop().into(holder.userUploadedImageView)
+    }
+
+    override fun getItemCount(): Int {
+        return post.size
+    }
+
+    class UserPostViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+        val userUploadedImageView :ImageView = itemView.findViewById(R.id.userUploadedImageView)
+    }
+}
