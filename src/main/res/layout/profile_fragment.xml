@@ -8,15 +8,38 @@
     tools:context=".profile.UserProfileFragment">
 
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/homePageToolBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Username"
+        android:textColorLink="?attr/colorPrimaryInverse"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/homePageToolBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="999dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/homePageToolBar">
 
         <ImageView
             android:id="@+id/profileImageView"
@@ -125,11 +148,11 @@
         app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/followButton"
+        app:layout_constraintStart_toEndOf="@+id/editProfileButton"
         app:layout_constraintTop_toBottomOf="@+id/userProfileCaption" />
 
     <Button
-        android:id="@+id/followButton"
+        android:id="@+id/editProfileButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -145,11 +168,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/profileRecyclerView"
         android:layout_width="409dp"
-        android:layout_height="422dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:nestedScrollingEnabled="false"
         android:overScrollMode="always"
-        app:layout_constraintTop_toBottomOf="@+id/followButton"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

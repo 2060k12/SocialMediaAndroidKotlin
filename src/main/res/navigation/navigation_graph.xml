@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.phoenix.socialmedia.login.LoginFragment"
+        android:name="com.phoenix.socialmedia.login.signin.LoginFragment"
         android:label="Login"
         tools:layout="@layout/login_fragment">
         <action
@@ -15,9 +15,12 @@
             app:destination="@id/homePageFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addPostFragment"
+        android:id="@+id/cameraFragment"
         android:name="com.phoenix.socialmedia.addPost.AddPostFragment"
         android:label="Addt"
         tools:layout="@layout/add_post_fragment">
@@ -39,12 +42,26 @@
             android:id="@+id/action_homePageFragment_to_cameraFragment"
             app:destination="@id/cameraFragment"
             app:enterAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homePageFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.phoenix.socialmedia.profile.UserProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_editProfile"
+            app:destination="@id/editProfile" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_followingFragment"
+            app:destination="@id/followingFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_profilePostViewFragment"
+            app:destination="@id/profilePostViewFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.phoenix.socialmedia.search.SearchFragment"
@@ -79,5 +96,75 @@
         <argument
             android:name="imageUrl"
             app:argType="string" />
+        <action
+            android:id="@+id/action_loadClickedImageFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.phoenix.socialmedia.login.signup.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/register_fragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment"
+            app:popUpTo="@id/homePageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.phoenix.socialmedia.homepage.posts.comment.CommentFragment"
+        android:label="comment_fragment"
+        tools:layout="@layout/comment_fragment" >
+        <argument
+            android:name="post"
+            app:argType="com.phoenix.socialmedia.data.Post" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.phoenix.socialmedia.profile.editUserProfile.EditProfileFragment"
+        android:label="edit_profile_fragment"
+        tools:layout="@layout/edit_profile_fragment" >
+        <argument
+            android:name="profile"
+            app:argType="com.phoenix.socialmedia.data.Profile" />
+        <action
+            android:id="@+id/action_editProfile_to_editProfileInformationFragment"
+            app:destination="@id/editProfileInformationFragment" />
+        <action
+            android:id="@+id/action_editProfile_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/editProfile"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileInformationFragment"
+        android:name="com.phoenix.socialmedia.profile.editUserProfile.EditProfileInformationFragment"
+        android:label="edit_profile_information_fragment"
+        tools:layout="@layout/edit_profile_information_fragment" >
+        <argument android:name="editType"
+            app:argType="string" />
+        <argument android:name="currentInformation"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_editProfileInformationFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/followingFragment"
+        android:name="com.phoenix.socialmedia.profile.follow.FollowingFragment"
+        android:label="following_fragment"
+        tools:layout="@layout/following_fragment" >
+        <argument
+            android:name="email" />
+    </fragment>
+    <fragment
+        android:id="@+id/profilePostViewFragment"
+        android:name="com.phoenix.socialmedia.profile.ProfilePostViewFragment"
+        android:label="profile_post_view_fragment"
+        tools:layout="@layout/profile_post_view_fragment" >
+        <argument
+            android:name="postInformation"
+            app:argType="com.phoenix.socialmedia.data.Post" />
     </fragment>
 </navigation>

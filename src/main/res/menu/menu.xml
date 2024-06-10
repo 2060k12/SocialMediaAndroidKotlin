@@ -10,7 +10,7 @@
         android:icon="@drawable/search"
         android:title="Search" />
     <item
-        android:id="@+id/addPostFragment"
+        android:id="@+id/cameraFragment"
         android:icon="@drawable/add"
         android:title="Add" />
     <item

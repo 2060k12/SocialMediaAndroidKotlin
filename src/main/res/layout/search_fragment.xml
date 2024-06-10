@@ -38,10 +38,22 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchedUsersRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="668dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchBarInputText" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:adSize="BANNER"
+
+        app:adUnitId="ca-app-pub-9204601868502031/4166841999"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchedUsersRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,18 +13,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
+import com.phoenix.socialmedia.data.Story
 import com.phoenix.socialmedia.databinding.HomePageFragmentBinding
-import com.phoenix.socialmedia.homepage.posts.PostAdapter
+import com.phoenix.socialmedia.homepage.posts.adapter.PostAdapter
+import com.phoenix.socialmedia.homepage.posts.adapter.StoryAdapter
 
 class HomePageFragment : Fragment() {
 
     private lateinit var binding: HomePageFragmentBinding
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var newRecyclerView: RecyclerView
+    // Recycler view for post and story
+    private lateinit var postRecyclerView: RecyclerView
+    private lateinit var storyRecyclerView: RecyclerView
+
+    // Arraylist
     private  var newArrayList = ArrayList<Post>()
+    private var storyArrayList = ArrayList<Story>()
+
+    private lateinit var navController: NavController
+    lateinit var postAdapter: PostAdapter
 
 
     companion object {
@@ -47,25 +56,14 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.addNewPostFloatingButton.setOnClickListener(){
-            val navController: NavController = findNavController()
-            navController.navigate(R.id.action_homePageFragment_to_cameraFragment)
-        }
+        navController = findNavController()
 
-        binding.signOut.setOnClickListener(){
-            Firebase.auth.signOut()
-            findNavController().navigate(R.id.action_homePageFragment_to_loginFragment)
-
-        }
-
-
-//        newArrayList = arrayListOf(post,post4,post24,post35,post3)
-
-         viewModel.getALlPost()
-        newRecyclerView = binding.recyclerView
-        newRecyclerView.layoutManager = LinearLayoutManager(context)
-        newRecyclerView.setHasFixedSize(true)
-        newRecyclerView.adapter = PostAdapter(newArrayList)
+        // For posts
+        viewModel.getALlPost()
+        postRecyclerView = binding.postRecyclerView
+        postRecyclerView.layoutManager = LinearLayoutManager(context)
+        postRecyclerView.setHasFixedSize(true)
+        postRecyclerView.adapter = PostAdapter(newArrayList, navController)
 
 
         binding.progressBarHomePage.visibility = View.VISIBLE
@@ -75,15 +73,25 @@ class HomePageFragment : Fragment() {
             newArrayList.clear()
             newArrayList.addAll(post)
             binding.progressBarHomePage.visibility = View.GONE
-
-            newRecyclerView.adapter?.notifyDataSetChanged()
+            postRecyclerView.adapter?.notifyDataSetChanged()
         }
-
-
         viewModel.getALlPost()
 
+        // For story
+        storyRecyclerView = binding.storyRecyclerView
+        storyRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        storyRecyclerView.setHasFixedSize(true)
+        storyRecyclerView.adapter = StoryAdapter(storyArrayList)
 
 
+        viewModel.story.observe(viewLifecycleOwner){
+            story ->
+            storyArrayList.clear()
+            storyArrayList.addAll(story)
+            storyRecyclerView.adapter?.notifyDataSetChanged()
+        }
+
+        viewModel.getAllStory()
 
 
 
@@ -91,6 +99,7 @@ class HomePageFragment : Fragment() {
 
 
     }
+
 
 
 }

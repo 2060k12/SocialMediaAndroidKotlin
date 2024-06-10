@@ -2,12 +2,14 @@ package com.phoenix.socialmedia.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.data.repositories.ProfileRepository
+import kotlinx.coroutines.launch
 
 class ProfileViewModel : ViewModel() {
 
@@ -59,15 +61,32 @@ class ProfileViewModel : ViewModel() {
 
 
     // function to get following of an user
-     fun getFollowing(email: String){
-        profileRepository.getFollowing(email)
+      fun getFollowing(email: String){
+
+         viewModelScope.launch {
+             profileRepository.getFollowing(email)
+
+         }
     }
 
 
 
     // fun to get followers of an user
     fun getFollowers(email: String){
-        profileRepository.getFollowers(email)
+        viewModelScope.launch {
+            profileRepository.getFollowers(email)
+        }
+    }
+
+    fun removeFollowing(email: String) {
+        profileRepository.removeFollowing(email)
+
+    }
+
+    fun removeFollwers(email: String) {
+        profileRepository.removeFollowers(email)
+
+
     }
 
 }

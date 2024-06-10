@@ -11,13 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.SearchFragmentBinding
-import com.phoenix.socialmedia.search.adapter.OnItemClickListener
 import com.phoenix.socialmedia.search.adapter.SearchedResultAdapter
+import com.phoenix.socialmedia.utils.OnItemClickListener
 
-class SearchFragment : Fragment(), OnItemClickListener{
+class SearchFragment : Fragment(), OnItemClickListener {
     //binding for our view (Search Fragment
     private lateinit var binding : SearchFragmentBinding
     private lateinit var recyclerView: RecyclerView
@@ -43,6 +44,10 @@ class SearchFragment : Fragment(), OnItemClickListener{
         recyclerView = binding.searchedUsersRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
+
+        val adView = binding.adView2
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
 
         var searchText: String =""
         recyclerView.adapter = SearchedResultAdapter(searchedUsers, this)

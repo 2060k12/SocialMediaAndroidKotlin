@@ -14,10 +14,11 @@ import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.SearchedProfileFragmentBinding
 import com.phoenix.socialmedia.profile.adapter.UserPostAdapter
+import com.phoenix.socialmedia.utils.OnItemClickListener
 import com.squareup.picasso.Picasso
 
 
-class SearchedProfileFragment : Fragment() {
+class SearchedProfileFragment : Fragment(), OnItemClickListener {
     lateinit var binding : SearchedProfileFragmentBinding
     private var imageUrls = ArrayList<Post>()
 
@@ -61,10 +62,9 @@ class SearchedProfileFragment : Fragment() {
     viewModel.profile.observe(viewLifecycleOwner){
     it->
     if(it.userImageUrl.isNotEmpty()){
-        Picasso.get().load(it.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
+        Picasso.get().load(it.userImageUrl?: "").resize(200,200).centerCrop().into(binding.profileImageView)
         binding.fullNameTextView.text = it?.name?: ""
         binding.userProfileCaption.text = it?.userCaption?: ""
-        binding.searchedUserNameTitleTextView.text = it.username?: ""
 
     }
 }
@@ -73,7 +73,7 @@ class SearchedProfileFragment : Fragment() {
         val recyclerView : RecyclerView = binding.profileRecyclerView
         recyclerView.layoutManager = GridLayoutManager(context,3)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter =  UserPostAdapter(imageUrls)
+        recyclerView.adapter =  UserPostAdapter(imageUrls, this )
 
 
 
@@ -92,6 +92,7 @@ class SearchedProfileFragment : Fragment() {
             viewModel.followUser(userInfo!!.email)
         }
         // Get followings
+
         viewModel.getFollowing(userInfo!!.email)
         binding.followingCountText.text = viewModel.followingCount.value.toString()
 
@@ -116,5 +117,9 @@ class SearchedProfileFragment : Fragment() {
 
 
 
+    }
+
+    override fun onItemClick(position: Int) {
+        TODO("Not yet implemented")
     }
 }

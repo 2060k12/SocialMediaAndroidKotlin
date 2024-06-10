@@ -95,7 +95,7 @@ class CameraFragment : Fragment() {
 
         if(requestCode == 100 && resultCode == Activity.RESULT_OK){
             val selectedImageUri : String = data?.data.toString()
-            val bundle = bundleOf("imageUrl" to selectedImageUri)
+            val bundle = bundleOf("imageUri" to selectedImageUri)
             findNavController().navigate(R.id.action_cameraFragment_to_loadClickedImageFragment, bundle)
 
         }
@@ -105,7 +105,7 @@ class CameraFragment : Fragment() {
 
 
     private fun takePhoto() {
-        val name = SimpleDateFormat(CameraViewModel.FileName_Format, Locale.US)
+        val name = SimpleDateFormat(CameraViewModel.FILENAME_FORMAT, Locale.US)
             .format(System.currentTimeMillis())
 
         val contentValues = ContentValues().apply {
@@ -129,9 +129,9 @@ class CameraFragment : Fragment() {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback{
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    var savedImageUrl: String = outputFileResults.savedUri.toString()
+                    var savedImageUri = outputFileResults.savedUri
                     val navController : NavController = findNavController()
-                    val bundle = bundleOf("imageUrl" to savedImageUrl)
+                    val bundle = bundleOf("imageUri" to savedImageUri.toString())
                     navController.navigate(R.id.action_cameraFragment_to_loadClickedImageFragment, bundle)
                     Toast.makeText(context, outputFileResults.toString(), Toast.LENGTH_SHORT).show()
                 }

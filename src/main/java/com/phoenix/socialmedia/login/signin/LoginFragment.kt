@@ -1,4 +1,4 @@
-package com.phoenix.socialmedia.login
+package com.phoenix.socialmedia.login.signin
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -74,26 +74,7 @@ class LoginFragment : Fragment() {
 
 
         binding.createNewAccountButton.setOnClickListener {
-            var email = binding.emailTextBox.text.toString()
-            var password = binding.passwordTextBox.text.toString()
-            binding.progressBar.visibility = View.VISIBLE
-
-
-            // TODO: Change the hardcoded value, make a new ui for Register page
-            viewModel.signUp(
-                email = email,
-                password = password,
-                userName = "pranish",
-                name = "Pranish Pathak"
-            ) { success ->
-                if (success) {
-                    binding.progressBar.visibility = View.GONE
-                    findNavController().navigate(R.id.action_loginFragment_to_homePageFragment)
-                } else {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(context, "Error!, Signing In", Toast.LENGTH_SHORT).show()
-                }
-            }
+            findNavController().navigate(R.id.registerFragment)
 
         }
 
