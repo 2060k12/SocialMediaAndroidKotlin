@@ -66,6 +66,7 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
         // This function will get load the livedata
         viewModel.getCurrentProfileDetails(auth.currentUser?.email.toString())
 
+
         Picasso.get().load(userProfile?.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
         binding.fullNameTextView.text = userProfile?.name?: ""
         binding.userProfileCaption.text = userProfile?.userCaption?: ""
@@ -74,13 +75,10 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
     it->
     if(it.userImageUrl.isNotEmpty()){
         Picasso.get().load(it.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
+    }
         binding.fullNameTextView.text = it?.name?: ""
         binding.userProfileCaption.text = it?.userCaption?: ""
         binding.userNameText.text = it?.username?: ""
-
-
-
-    }
 }
 
         //Working with the recycler view

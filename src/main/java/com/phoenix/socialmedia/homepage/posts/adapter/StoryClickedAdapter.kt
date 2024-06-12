@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Story
 import com.phoenix.socialmedia.databinding.StoryClickedRecyclerViewBinding
+import com.phoenix.socialmedia.homepage.HomePageViewModel
 import com.squareup.picasso.Picasso
 
 class StoryClickedAdapter(private val storyList: ArrayList<Story>): RecyclerView.Adapter<StoryClickedAdapter.StoryClickedViewHolder>() {
@@ -15,6 +17,7 @@ class StoryClickedAdapter(private val storyList: ArrayList<Story>): RecyclerView
 
             val storyImage = binding.storyLargeImageView
             val userName = binding.storyUserNameTextView
+            val userImage = binding.storyUserImageView
 
         }
 
@@ -29,8 +32,14 @@ class StoryClickedAdapter(private val storyList: ArrayList<Story>): RecyclerView
         }
 
         override fun onBindViewHolder(holder: StoryClickedViewHolder, position: Int) {
+            val homePageViewModel = HomePageViewModel()
             val currentItem = storyList[position]
             Picasso.get().load(currentItem.imageUrl).rotate(90f).into(holder.storyImage)
-            holder.userName.text = currentItem.email
+            homePageViewModel.getUserProfileImage(currentItem.email){
+                userImage, userName ->
+                holder.userName.text = userName
+                Picasso.get().load(userImage).placeholder(R.drawable.account).resize(200,200).centerCrop().into(holder.userImage)
+            }
+
         }
     }

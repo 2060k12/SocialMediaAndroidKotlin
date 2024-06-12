@@ -67,6 +67,12 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 
+    // from:     https://github.com/airbnb/lottie-android
+    // lottie-android
+    implementation ("com.airbnb.android:lottie:6.4.1")
+
+
+
     // native ads
     implementation ("com.google.android.gms:play-services-ads:23.1.0")
 
