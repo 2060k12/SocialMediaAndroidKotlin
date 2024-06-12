@@ -49,6 +49,8 @@ class SearchFragment : Fragment(), OnItemClickListener {
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
 
+
+
         var searchText: String =""
         recyclerView.adapter = SearchedResultAdapter(searchedUsers, this)
 

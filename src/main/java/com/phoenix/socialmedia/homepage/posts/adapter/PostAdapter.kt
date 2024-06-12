@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.databinding.PostsRecyclerViewBinding
@@ -39,7 +36,7 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val currentItem = postList[position]
 
-        if (currentItem.email.isNotEmpty()) {
+
 
             holder.dateTimeTextView.text = viewModel.getTimeDifference(currentItem.time.toDate().time)
             binding.adCardView.visibility = View.GONE
@@ -62,44 +59,18 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
                 .into(holder.postImageView)
         }
 
-            if(currentItem.likedByCurrentUser){
-                holder.likeButton.setImageResource(R.drawable.heart)
-            }
-            else{
-                holder.likeButton.setImageResource(R.drawable.add)
-            }
-
-
 
             holder.likeButton.setOnClickListener() {
             commentViewModel.likeThePost(email = currentItem.email, postId = currentItem.postId)
         }
 
         holder.addCommentButton.setOnClickListener() {
-
             val bundle: Bundle = Bundle()
             bundle.putParcelable("postInfo", currentItem)
             navController.navigate(R.id.action_homePageFragment_to_commentFragment, bundle)
         }
 
     }
-
-        else if (currentItem.email.isEmpty() && currentItem.imageUrl.isEmpty()){
-            // Ads
-            var mAdview = holder.adView
-            val adRequest : AdRequest = AdRequest.Builder().build()
-            holder.postCardView.visibility = View.GONE
-            holder.adCardView.visibility = View.VISIBLE
-            holder.adView.loadAd(adRequest)
-
-        }
-
-
-    }
-
-
-
-
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
@@ -108,10 +79,11 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
         val userProfileImage : ImageView = itemView.findViewById(R.id.userProfileImageView)
         val postImageView : ImageView = itemView.findViewById(R.id.postImageView)
         val dateTimeTextView : TextView = itemView.findViewById(R.id.dateTimeTextView)
-
-        val adCardView: CardView = itemView.findViewById(R.id.adCardView)
-        val adView: AdView = itemView.findViewById(R.id.adView)
-        val postCardView: CardView = itemView.findViewById(R.id.postCardView)
+//
+//        val adCardView: CardView = itemView.findViewById(R.id.adCardView)
+//        val adView: AdView = itemView.findViewById(R.id.adView)
+//        val postCardView: CardView = itemView.findViewById(R.id.postCardView)
+//
         val likeButton: ImageButton = itemView.findViewById(R.id.likePostButton)
         val addCommentButton : ImageButton = itemView.findViewById(R.id.addCommentButton)
 

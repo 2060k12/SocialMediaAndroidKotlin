@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_homePageFragment_to_commentFragment"
             app:destination="@id/commentFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_storyViewFragment"
+            app:destination="@id/storyViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -166,5 +169,17 @@
         <argument
             android:name="postInformation"
             app:argType="com.phoenix.socialmedia.data.Post" />
+    </fragment>
+    <fragment
+        android:id="@+id/storyViewFragment"
+        android:name="com.phoenix.socialmedia.homepage.StoryViewFragment"
+        android:label="story_view_fragment"
+        tools:layout="@layout/story_view_fragment" >
+        <argument
+            android:name="storyList"
+            app:argType="com.phoenix.socialmedia.data.Story" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 </navigation>

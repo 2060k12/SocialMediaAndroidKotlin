@@ -67,6 +67,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 
+    // native ads
+    implementation ("com.google.android.gms:play-services-ads:23.1.0")
+
 
     // Navigation
     val navVersion = "2.7.7"
@@ -80,6 +83,7 @@ dependencies {
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+
     // recycler view
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     //Picasso

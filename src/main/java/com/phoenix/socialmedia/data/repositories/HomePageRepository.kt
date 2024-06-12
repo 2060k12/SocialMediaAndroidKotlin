@@ -19,11 +19,6 @@ class HomePageRepository {
     private val db = Firebase.firestore
     private val auth = Firebase.auth
 
-    // using profile repository to get realtime following data
-    private val profileRepository = ProfileRepository()
-    val followingListOfCurrentUser = profileRepository.followings
-
-
     // live data for all posts
     private val _posts = MutableLiveData<ArrayList<Post>>()
     val post: LiveData<ArrayList<Post>> get() = _posts
@@ -65,16 +60,12 @@ class HomePageRepository {
                                 count ++
                             }
 
-
-                            if(count> 1 && (count % 2 ==0)){
-//                                postList.add(Post("","","","","",false ,post.time ))
-                            }
-
                         }
-                            //this will update the list when all post has been processed
+//                            this will update the list when all post has been processed
                             postList.sortByDescending { it.time.seconds }
-                            fetchAllPostLikes(postList)
+//                            fetchAllPostLikes(postList)
 
+                            _posts.value = postList
                     }
                     .addOnFailureListener { e ->
                         Log.i("Error Fetching Following", e.toString())
@@ -132,10 +123,10 @@ class HomePageRepository {
             .collection("like")
             .document(email)
             .set(newCollection)
-            .addOnSuccessListener (){
+            .addOnSuccessListener{
                 Log.i("Success", "$postId $email Successfully added")
             }
-            .addOnFailureListener(){
+            .addOnFailureListener{
                 Log.i("Failed", it.message.toString())
             }
 
@@ -154,10 +145,10 @@ class HomePageRepository {
             .collection("comment")
             .document(auth.currentUser?.email.toString())
             .set(newCollection)
-            .addOnSuccessListener (){
-                Log.i("Success", "${postId} $email Successfully added")
+            .addOnSuccessListener {
+                Log.i("Success", "$postId $email Successfully added")
             }
-            .addOnFailureListener(){
+            .addOnFailureListener{
                 Log.i("Failed", it.message.toString())
             }
     }
@@ -181,8 +172,7 @@ class HomePageRepository {
 
     fun getALlComments(postUserEmail: String, postId: String){
 
-        var commentList = ArrayList<Comments>()
-
+        val commentList = ArrayList<Comments>()
         db.collection("users")
             .document(postUserEmail)
             .collection("post")
@@ -197,7 +187,7 @@ class HomePageRepository {
                 _comments.value = commentList
             }
 
-            .addOnFailureListener(){
+            .addOnFailureListener{
                 Log.i("Failed", it.message.toString())
             }
 

@@ -10,19 +10,19 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
+import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.data.Story
 import com.phoenix.socialmedia.databinding.HomePageFragmentBinding
 import com.phoenix.socialmedia.homepage.posts.adapter.PostAdapter
 import com.phoenix.socialmedia.homepage.posts.adapter.StoryAdapter
+import com.phoenix.socialmedia.utils.OnItemClickListener
 
-class HomePageFragment : Fragment() {
+class HomePageFragment : Fragment(), OnItemClickListener {
+
+
 
     private lateinit var binding: HomePageFragmentBinding
-    private lateinit var auth: FirebaseAuth
 
     // Recycler view for post and story
     private lateinit var postRecyclerView: RecyclerView
@@ -34,6 +34,7 @@ class HomePageFragment : Fragment() {
 
     private lateinit var navController: NavController
     lateinit var postAdapter: PostAdapter
+
 
 
     companion object {
@@ -48,7 +49,6 @@ class HomePageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = HomePageFragmentBinding.inflate(inflater, container, false)
-        auth = Firebase.auth
         return binding.root
     }
 
@@ -56,6 +56,8 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // initializing a navController, which will be passed as an arguments in post Adapter
+        // since it is not possible to call navController from an adapter
         navController = findNavController()
 
         // For posts
@@ -63,15 +65,14 @@ class HomePageFragment : Fragment() {
         postRecyclerView = binding.postRecyclerView
         postRecyclerView.layoutManager = LinearLayoutManager(context)
         postRecyclerView.setHasFixedSize(true)
+        postRecyclerView.setItemViewCacheSize(5)
         postRecyclerView.adapter = PostAdapter(newArrayList, navController)
-
-
         binding.progressBarHomePage.visibility = View.VISIBLE
 
         viewModel.post.observe(viewLifecycleOwner){
             post ->
-            newArrayList.clear()
-            newArrayList.addAll(post)
+
+            newArrayList.addAll(post - newArrayList )
             binding.progressBarHomePage.visibility = View.GONE
             postRecyclerView.adapter?.notifyDataSetChanged()
         }
@@ -81,7 +82,7 @@ class HomePageFragment : Fragment() {
         storyRecyclerView = binding.storyRecyclerView
         storyRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         storyRecyclerView.setHasFixedSize(true)
-        storyRecyclerView.adapter = StoryAdapter(storyArrayList)
+        storyRecyclerView.adapter = StoryAdapter(storyArrayList, this)
 
 
         viewModel.story.observe(viewLifecycleOwner){
@@ -92,7 +93,7 @@ class HomePageFragment : Fragment() {
         }
 
         viewModel.getAllStory()
-
+        
 
 
 
@@ -100,6 +101,12 @@ class HomePageFragment : Fragment() {
 
     }
 
+    override fun onItemClick(position: Int) {
+        var bundle = Bundle()
+        bundle.putInt("position", position)
+        bundle.putParcelableArrayList("storyList", storyArrayList)
+        findNavController().navigate(R.id.action_homePageFragment_to_storyViewFragment, bundle)
+    }
 
 
 }

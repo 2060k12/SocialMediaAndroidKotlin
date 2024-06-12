@@ -157,8 +157,6 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
             buttonPressed = "followers"
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
-
-
         }
 
 
