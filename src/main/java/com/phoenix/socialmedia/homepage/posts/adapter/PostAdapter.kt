@@ -44,17 +44,14 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
             holder.captionTextView.text = currentItem.caption
             viewModel.getUserProfileImage(currentItem.email) {
                 image, userName ->
-                Picasso.get().load(image).into(holder.userProfileImage)
+                if(image.isNotEmpty()) Picasso.get().load(image).into(holder.userProfileImage)
                 holder.userNameTextView.text = userName
 
             }
 
-            Picasso.get().load(currentItem.imageUrl).resize(500, 500).centerCrop()
-                .into(holder.postImageView)
 
 
         if (currentItem.imageUrl.isNotEmpty()) {
-
             Picasso.get().load(currentItem.imageUrl).resize(500, 500).centerCrop()
                 .into(holder.postImageView)
         }
@@ -88,4 +85,5 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
         val addCommentButton : ImageButton = itemView.findViewById(R.id.addCommentButton)
 
     }
+
 }

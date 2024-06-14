@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.data.Profile
@@ -41,19 +42,21 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
     companion object {
         fun newInstance() = UserProfileFragment()
     }
+    lateinit var mainActivity: MainActivity
 
     // View Model
     private val viewModel: ProfileViewModel by viewModels()
     // Using firebase authentication
     val auth = Firebase.auth
-
-
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+// Setting up action bar
+        mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("Profile", R.drawable.add, showBarState = true, true)
+
         binding = ProfileFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -66,19 +69,22 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
         // This function will get load the livedata
         viewModel.getCurrentProfileDetails(auth.currentUser?.email.toString())
 
-
-        Picasso.get().load(userProfile?.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
+        if(userProfile?.userImageUrl?.isNotEmpty() == true){
+            // action bar
+        Picasso.get().load(userProfile.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
+        }
         binding.fullNameTextView.text = userProfile?.name?: ""
         binding.userProfileCaption.text = userProfile?.userCaption?: ""
-        binding.userNameText.text = userProfile?.username?: ""
+
     viewModel.profile.observe(viewLifecycleOwner){
     it->
     if(it.userImageUrl.isNotEmpty()){
+
+
         Picasso.get().load(it.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
     }
         binding.fullNameTextView.text = it?.name?: ""
         binding.userProfileCaption.text = it?.userCaption?: ""
-        binding.userNameText.text = it?.username?: ""
 }
 
         //Working with the recycler view

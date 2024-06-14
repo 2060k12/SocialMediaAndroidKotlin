@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.SearchFragmentBinding
@@ -34,6 +35,9 @@ class SearchFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Setting up action bar
+        val mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("Search", R.drawable.add, showBarState = true, showBackState = true)
         binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }

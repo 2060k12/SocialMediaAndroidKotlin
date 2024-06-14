@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.databinding.LoginFragmentBinding
 
@@ -22,12 +23,17 @@ class LoginFragment : Fragment() {
     }
 
     private val viewModel: LoginViewModel by viewModels()
-
+    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        // Navigation and action Bar
+        mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("", R.drawable.add, showBarState = false, false)
+        mainActivity.getNavigationBar().visibility = View.GONE
 
         binding = LoginFragmentBinding.inflate(inflater, container, false)
         /*
@@ -38,8 +44,10 @@ class LoginFragment : Fragment() {
         var status = viewModel.checkCurrentUser()
 
         if (status) {
-            var navController: NavController = findNavController()
+
+            val navController: NavController = findNavController()
             navController.navigate(R.id.action_loginFragment_to_homePageFragment)
+
         }
 
         return binding.root
@@ -78,5 +86,11 @@ class LoginFragment : Fragment() {
 
         }
 
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainActivity.getNavigationBar().visibility = View.VISIBLE
     }
 }

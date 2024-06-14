@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.phoenix.socialmedia.MainActivity
+import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.SearchedProfileFragmentBinding
@@ -42,6 +44,10 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Setting up action bar
+        val mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar(userInfo?.username.toString(), R.drawable.add, showBarState = true, true)
+
         binding = SearchedProfileFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }

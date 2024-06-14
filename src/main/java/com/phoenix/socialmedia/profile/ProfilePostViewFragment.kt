@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.phoenix.socialmedia.MainActivity
+import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.databinding.ProfilePostViewFragmentBinding
 import com.squareup.picasso.Picasso
@@ -16,11 +18,16 @@ class ProfilePostViewFragment : Fragment() {
  lateinit var binding: ProfilePostViewFragmentBinding
  val post @RequiresApi(Build.VERSION_CODES.TIRAMISU)
  get() =  arguments?.getParcelable("postInformation", Post::class.java)
-
+lateinit var mainActivity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Setting up action bar
+        mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("", R.drawable.add, showBarState = false, false)
+        mainActivity.getNavigationBar().visibility = View.GONE
+
         // Inflate the layout for this fragment
         binding = ProfilePostViewFragmentBinding.inflate(inflater, container, false)
         binding.postViewProgressView.visibility = View.VISIBLE
@@ -43,5 +50,10 @@ class ProfilePostViewFragment : Fragment() {
 
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainActivity.getNavigationBar().visibility = View.VISIBLE
     }
 }

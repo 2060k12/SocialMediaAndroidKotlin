@@ -10,6 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.Timestamp
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.data.Story
@@ -18,10 +21,11 @@ import com.phoenix.socialmedia.homepage.posts.adapter.PostAdapter
 import com.phoenix.socialmedia.homepage.posts.adapter.StoryAdapter
 import com.phoenix.socialmedia.utils.OnItemClickListener
 
-class HomePageFragment : Fragment(), OnItemClickListener {
+class HomePageFragment : Fragment(), OnItemClickListener{
 
 
-
+    private var refreshCount=0
+    private var time = Timestamp.now()
     private lateinit var binding: HomePageFragmentBinding
 
     // Recycler view for post and story
@@ -35,6 +39,7 @@ class HomePageFragment : Fragment(), OnItemClickListener {
     private lateinit var navController: NavController
     lateinit var postAdapter: PostAdapter
 
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
 
     companion object {
@@ -48,6 +53,11 @@ class HomePageFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Setting up action bar
+        val mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("Home", R.drawable.add, showBarState = true)
+
+        // binding for our view
         binding = HomePageFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,6 +65,8 @@ class HomePageFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         // initializing a navController, which will be passed as an arguments in post Adapter
         // since it is not possible to call navController from an adapter
@@ -71,8 +83,8 @@ class HomePageFragment : Fragment(), OnItemClickListener {
 
         viewModel.post.observe(viewLifecycleOwner){
             post ->
-
-            newArrayList.addAll(post - newArrayList )
+            newArrayList.clear()
+            newArrayList.addAll(post )
             binding.progressBarHomePage.visibility = View.GONE
             postRecyclerView.adapter?.notifyDataSetChanged()
         }
@@ -93,10 +105,25 @@ class HomePageFragment : Fragment(), OnItemClickListener {
         }
 
         viewModel.getAllStory()
-        
 
 
+        swipeRefreshLayout = binding.swipeRefreshLayoutHomePage
+        swipeRefreshLayout.setOnRefreshListener {
+            if(refreshCount >= 4 ){
+                refreshCount =0
+            }
+            if(refreshCount== 0) {
+                viewModel.getALlPost()
+                newArrayList.clear()
+                newArrayList.addAll(newArrayList)
+                postRecyclerView.adapter?.notifyDataSetChanged()
 
+            }
+            refreshCount ++
+
+
+            swipeRefreshLayout.isRefreshing = false
+        }
 
 
     }
@@ -107,6 +134,8 @@ class HomePageFragment : Fragment(), OnItemClickListener {
         bundle.putParcelableArrayList("storyList", storyArrayList)
         findNavController().navigate(R.id.action_homePageFragment_to_storyViewFragment, bundle)
     }
+
+
 
 
 }

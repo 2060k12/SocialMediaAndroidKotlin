@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.databinding.RegisterFragmentBinding
 
@@ -20,12 +21,17 @@ class RegisterFragment : Fragment() {
 
     private val viewModel: RegisterViewModel by viewModels()
 
-
+    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Navigation and action Bar
+        mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("", R.drawable.add, showBarState = false, false)
+        mainActivity.getNavigationBar().visibility = View.GONE
+
         binding = RegisterFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,5 +65,9 @@ class RegisterFragment : Fragment() {
             }
         }
 
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        mainActivity.getNavigationBar().visibility = View.VISIBLE
     }
 }

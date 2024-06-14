@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.databinding.LoadClickedImageFragmentBinding
 import com.squareup.picasso.Picasso
@@ -20,10 +21,16 @@ class LoadClickedImageFragment : Fragment() {
     private lateinit var binding : LoadClickedImageFragmentBinding
     private val viewModel = CameraViewModel()
 
+    lateinit var mainActivity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Setting up action bar
+        mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("Upload", R.drawable.add, showBarState = true, true)
+        mainActivity.getNavigationBar().visibility = View.GONE
+
         // Inflate the layout for this fragment
         binding = LoadClickedImageFragmentBinding.inflate(layoutInflater)
         return binding.root
@@ -77,8 +84,12 @@ class LoadClickedImageFragment : Fragment() {
 
             }
         }
+
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mainActivity.getNavigationBar().visibility = View.VISIBLE
+    }
 
 }

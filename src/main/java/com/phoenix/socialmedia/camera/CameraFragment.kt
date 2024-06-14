@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.databinding.CameraFragmentBinding
 import java.text.SimpleDateFormat
@@ -30,13 +31,17 @@ import java.util.Locale
 
 class CameraFragment : Fragment() {
 
+    companion object {
+        fun newInstance() = CameraFragment()
+    }
+
     private val viewModel: CameraViewModel by viewModels()
 
     private lateinit var binding: CameraFragmentBinding
 
     // Using CameraController
     private lateinit var cameraController: LifecycleCameraController
-
+    private lateinit var mainActivity: MainActivity
 
     // camera State
     private var cameraFacingFront : Boolean = true
@@ -45,6 +50,12 @@ class CameraFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        // Setting up action bar
+        mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("Camera", R.drawable.add, showBarState = true, true)
+        mainActivity.getNavigationBar().visibility = View.GONE
+
         // Inflate the layout for this fragment
         binding = CameraFragmentBinding.inflate(inflater, container, false)
 
@@ -160,6 +171,7 @@ class CameraFragment : Fragment() {
     }
 
 
+
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
             permissions->
@@ -175,6 +187,14 @@ class CameraFragment : Fragment() {
                 }
             }
         }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainActivity.getNavigationBar().visibility = View.VISIBLE
+
+    }
+
 
 }
 

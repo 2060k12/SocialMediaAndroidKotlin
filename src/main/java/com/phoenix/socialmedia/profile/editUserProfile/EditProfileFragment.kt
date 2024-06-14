@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.EditProfileFragmentBinding
@@ -37,6 +38,10 @@ class EditProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Setting up action bar
+        val mainActivity = requireActivity() as MainActivity
+        mainActivity.actionBar("Edit Profile", R.drawable.add, showBarState = true, true)
+
         binding = EditProfileFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -50,8 +55,10 @@ class EditProfileFragment : Fragment() {
         binding.fullNameProfileTextView.text = userProfile?.name.toString()
         binding.bioProfileTextView.text = userProfile?.userCaption.toString()
         binding.userNameProfileTextView.text = userProfile?.username.toString()
-        Picasso.get().load(userProfile?.userImageUrl).resize(200,200).centerCrop().into(binding.imageView)
-
+        if(userProfile?.userImageUrl.toString().isNotEmpty()) {
+            Picasso.get().load(userProfile?.userImageUrl).resize(200, 200).centerCrop()
+                .into(binding.imageView)
+        }
 
         // When FullName card view is clicked
         binding.editNameCardView.setOnClickListener(){
