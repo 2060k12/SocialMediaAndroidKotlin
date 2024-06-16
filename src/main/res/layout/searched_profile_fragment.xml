@@ -38,12 +38,12 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/searchFollowigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Following"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintEnd_toStartOf="@+id/searchFollowersText"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toTopOf="@+id/cardView" />
@@ -55,13 +55,13 @@
         android:layout_marginStart="32dp"
         android:text="Post"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintEnd_toStartOf="@+id/textView5"
+        app:layout_constraintEnd_toStartOf="@+id/searchFollowigText"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="@+id/cardView" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/searchFollowersText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -69,7 +69,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/searchFollowigText"
         app:layout_constraintTop_toTopOf="@+id/cardView" />
 
     <TextView
@@ -88,9 +88,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="0"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintEnd_toEndOf="@+id/searchFollowigText"
+        app:layout_constraintStart_toStartOf="@+id/searchFollowigText"
+        app:layout_constraintTop_toBottomOf="@+id/searchFollowigText" />
 
     <TextView
         android:id="@+id/followersCountText"
@@ -98,10 +98,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="0"
-        app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/searchFollowersText"
         app:layout_constraintHorizontal_bias="0.583"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintStart_toStartOf="@+id/searchFollowersText"
+        app:layout_constraintTop_toBottomOf="@+id/searchFollowersText" />
 
     <TextView
         android:id="@+id/userProfileCaption"

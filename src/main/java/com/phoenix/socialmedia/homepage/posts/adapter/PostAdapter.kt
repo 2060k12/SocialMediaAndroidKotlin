@@ -65,6 +65,7 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
             val bundle: Bundle = Bundle()
             bundle.putParcelable("postInfo", currentItem)
             navController.navigate(R.id.action_homePageFragment_to_commentFragment, bundle)
+//            navController.navigate(R.id.action_userProfileFragment_to_commentFragment, bundle)
         }
 
     }

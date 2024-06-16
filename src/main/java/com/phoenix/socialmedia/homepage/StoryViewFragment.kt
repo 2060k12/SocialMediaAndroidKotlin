@@ -16,7 +16,8 @@ import com.phoenix.socialmedia.homepage.posts.adapter.StoryClickedAdapter
 
 class StoryViewFragment : Fragment() {
 
-    private var mainActivity = MainActivity()
+    // declaring here but to be initialized later in the code
+    private lateinit var mainActivity : MainActivity
     private lateinit var binding: StoryViewFragmentBinding
     private lateinit var pager :ViewPager2
     private val storyList @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -27,9 +28,9 @@ class StoryViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Setting up action bar
-        val mainActivity = requireActivity() as MainActivity
+        mainActivity = requireActivity() as MainActivity
         mainActivity.actionBar("Story", R.drawable.add, showBarState = true, true)
-
+        mainActivity.getNavigationBar().visibility = View.GONE
         // Inflate the layout for this fragment
         binding = StoryViewFragmentBinding.inflate(layoutInflater)
         return binding.root
@@ -46,5 +47,10 @@ class StoryViewFragment : Fragment() {
         pager.setCurrentItem(position, false)
 
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mainActivity.getNavigationBar().visibility = View.VISIBLE
     }
 }

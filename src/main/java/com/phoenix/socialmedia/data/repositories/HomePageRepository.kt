@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Firebase
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.phoenix.socialmedia.data.Comments
@@ -14,6 +15,8 @@ import com.phoenix.socialmedia.data.Story
 import kotlinx.coroutines.tasks.await
 
 class HomePageRepository {
+    // current time
+    private val currentTime = Timestamp.now()
 
     // initializing firestore database  & auth from firebase
     private val db = Firebase.firestore
@@ -223,6 +226,7 @@ class HomePageRepository {
 
     suspend fun getAllStory() {
         val storyList = ArrayList<Story>()
+        val delList = ArrayList<Story>()
         val currentUserEmail = auth.currentUser?.email.toString()
 
         try {
@@ -241,7 +245,7 @@ class HomePageRepository {
 
                 for (document in storyResult) {
                     val story = document.toObject(Story::class.java)
-                    if (story.email in followingEmails) {
+                    if (story.email in followingEmails ){
                         storyList.add(story)
                     }
                 }

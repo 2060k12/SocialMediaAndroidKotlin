@@ -14,7 +14,7 @@ import com.phoenix.socialmedia.databinding.FollowingUsersRecyclerViewBinding
 import com.phoenix.socialmedia.profile.ProfileViewModel
 import com.squareup.picasso.Picasso
 
-class FollowingListAdapter(private var followingList : ArrayList<Profile>, private val listName: String) : RecyclerView.Adapter<FollowingListAdapter.FollowingListViewHolder>() {
+class FollowingListAdapter(private var followingList : ArrayList<Profile>, private val listName: String, private val isCurrentUser: Boolean) : RecyclerView.Adapter<FollowingListAdapter.FollowingListViewHolder>() {
     private lateinit var binding : FollowingUsersRecyclerViewBinding
     private val profileViewMode = ProfileViewModel()
 
@@ -33,6 +33,14 @@ class FollowingListAdapter(private var followingList : ArrayList<Profile>, priva
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FollowingListViewHolder, position: Int) {
+        if(!isCurrentUser){
+            binding.removeFollowingButton.visibility = View.GONE
+        }
+        else{
+            binding.removeFollowingButton.visibility = View.VISIBLE
+
+        }
+
         if(listName == "following"){
             holder.removeFollowingButton.text = "Following"
         }

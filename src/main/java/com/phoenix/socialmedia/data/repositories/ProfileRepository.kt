@@ -97,7 +97,10 @@ class ProfileRepository {
         docRef.get()
             .addOnSuccessListener { results ->
                 for (result in results) {
-                    postList.add(result.toObject(Post::class.java))
+                    val newPost = result.toObject(Post::class.java)
+                    newPost.postId = result.id
+                    postList.add(newPost)
+
                 }
                 _imageUrls.value = postList
             }
@@ -264,6 +267,26 @@ class ProfileRepository {
                     .document(auth.currentUser?.email.toString())
                     .delete()
             }
+    }
+
+//     Check if the searched user has been followed by current user
+
+    fun checkIfFollowed(searchedUser : String, state: (Boolean) -> Unit) {
+        db.collection("users")
+            .document(auth.currentUser?.email.toString())
+            .collection("following")
+            .get()
+            .addOnSuccessListener {
+              for (doc in it){
+                  if(doc.id == searchedUser){
+                      state(true)
+                  }
+              }
+            }
+            .addOnFailureListener(){
+                state(false)
+            }
+
     }
 
 }

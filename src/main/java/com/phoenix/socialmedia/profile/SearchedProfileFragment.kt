@@ -1,5 +1,6 @@
 package com.phoenix.socialmedia.profile
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.phoenix.socialmedia.MainActivity
@@ -52,18 +54,33 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var userProfile = viewModel.profile.value
+
+
+        val userProfile = viewModel.profile.value
         if (userInfo != null) {
             viewModel.getCurrentProfileDetails(userInfo!!.email)
+            viewModel.checkIfFollowed(userInfo!!.email){
+                isFollowed ->
+                if(isFollowed){
+                    binding.followButton.text = "Following"
+                }
+                 else if(isFollowed.not()){
+                    binding.followButton.text = "Follow"
+                }
+            }
         }
 
             Picasso.get().load(userProfile?.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
-            binding.fullNameTextView.setText(userProfile?.name?: "")
-            binding.userProfileCaption.setText(userProfile?.userCaption?: "")
+        binding.fullNameTextView.text = userProfile?.name?: ""
+        binding.userProfileCaption.text = userProfile?.userCaption?: ""
+
+
+
 
     viewModel.profile.observe(viewLifecycleOwner){
     it->
@@ -95,7 +112,16 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
 
         // Follows the user
         binding.followButton.setOnClickListener(){
+            if(binding.followButton.text.toString().lowercase() == "follow")
+            {
             viewModel.followUser(userInfo!!.email)
+                binding.followButton.text = "Following"
+            }
+            else if (binding.followButton.text.toString().lowercase() == "following"){
+                viewModel.removeFollowing(userInfo!!.email)
+                binding.followButton.text = "Follow"
+            }
+
         }
         // Get followings
 
@@ -108,7 +134,6 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
             binding.followingCountText.text = viewModel.followingCount.value.toString()
         }
 
-
         // Get Followers
         viewModel.getFollowers(userInfo!!.email)
         binding.followingCountText.text = viewModel.followingCount.value.toString()
@@ -120,12 +145,32 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
         }
 
 
+        val bundle = Bundle()
+        var buttonPressed : String
+        bundle.putString("currentUserEmail", userInfo!!.email)
 
 
 
+//        get following list of the searched user
+        binding.followingCountText.setOnClickListener(){
+            buttonPressed = "following"
+            bundle.putString("button", buttonPressed)
+            findNavController().navigate(R.id.action_searchedProfileFragment_to_followingFragment, bundle)
+
+        }
+
+//        get followers list of the searched list
+        binding.followersCountText.setOnClickListener{
+            buttonPressed = "followers"
+            bundle.putString("button", buttonPressed)
+            findNavController().navigate(R.id.action_searchedProfileFragment_to_followingFragment, bundle)
+        }
     }
 
+
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val bundle = Bundle()
+        bundle.putParcelable( "postInformation",imageUrls[position])
+        findNavController().navigate(R.id.action_searchedProfileFragment_to_profilePostViewFragment, bundle)
     }
 }

@@ -89,4 +89,10 @@ class ProfileViewModel : ViewModel() {
 
     }
 
+    fun checkIfFollowed(searchedUser: String, state: (Boolean) -> Unit ){
+        profileRepository.checkIfFollowed(searchedUser, state)
+
+    }
+
+
 }

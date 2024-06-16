@@ -81,6 +81,12 @@
         <argument
             android:name="profile"
             app:argType="com.phoenix.socialmedia.data.Profile" />
+        <action
+            android:id="@+id/action_searchedProfileFragment_to_followingFragment"
+            app:destination="@id/followingFragment" />
+        <action
+            android:id="@+id/action_searchedProfileFragment_to_profilePostViewFragment"
+            app:destination="@id/profilePostViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -169,6 +175,9 @@
         <argument
             android:name="postInformation"
             app:argType="com.phoenix.socialmedia.data.Post" />
+        <action
+            android:id="@+id/action_profilePostViewFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
     </fragment>
     <fragment
         android:id="@+id/storyViewFragment"

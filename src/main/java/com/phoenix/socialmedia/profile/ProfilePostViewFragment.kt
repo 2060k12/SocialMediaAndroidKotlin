@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
@@ -47,13 +48,19 @@ lateinit var mainActivity: MainActivity
         }
         binding.postViewProgressView.visibility = View.GONE
 
+        binding.commentClickPostButton.setOnClickListener(){
+            val bundle: Bundle = Bundle()
+            bundle.putParcelable("postInfo", post)
+            findNavController().navigate(R.id.action_profilePostViewFragment_to_commentFragment, bundle)
+
+        }
 
 
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         mainActivity.getNavigationBar().visibility = View.VISIBLE
     }
 }

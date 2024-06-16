@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.FollowingFragmentBinding
 import com.phoenix.socialmedia.databinding.FollowingUsersRecyclerViewBinding
@@ -29,6 +31,7 @@ class FollowingFragment : Fragment() {
 
     private val profileViewModel = ProfileViewModel()
 
+
     private val followingListLiveData get() = profileViewModel.followings
     private val followersListLiveData get() = profileViewModel.followers
     private val followingList = ArrayList<Profile>()
@@ -36,8 +39,7 @@ class FollowingFragment : Fragment() {
     private val currentUser get() = arguments?.getString("currentUserEmail")
     private val buttonPressed  get() = arguments?.getString("button")
 
-
-
+    val auth = Firebase.auth
 
 
     override fun onCreateView(
@@ -54,12 +56,16 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         if(buttonPressed.toString().lowercase() == "following"){
 
             recyclerView =binding.followingRecyclerView
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.setHasFixedSize(true)
-            recyclerView.adapter = FollowingListAdapter(followingList, "following")
+            if(auth.currentUser?.email.toString() == currentUser )
+            recyclerView.adapter = FollowingListAdapter(followingList, "following", true )
+            else recyclerView.adapter = FollowingListAdapter(followingList, "following", false )
+
 
             followingListLiveData.observe(viewLifecycleOwner){
                 followingList.clear()
@@ -73,7 +79,9 @@ class FollowingFragment : Fragment() {
             recyclerView =binding.followingRecyclerView
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.setHasFixedSize(true)
-            recyclerView.adapter = FollowingListAdapter(followersList, "followers")
+            if(auth.currentUser?.email.toString() == currentUser )
+            recyclerView.adapter = FollowingListAdapter(followersList, "followers", true)
+            else recyclerView.adapter = FollowingListAdapter(followersList, "followers", false)
 
 
             followersListLiveData.observe(viewLifecycleOwner){

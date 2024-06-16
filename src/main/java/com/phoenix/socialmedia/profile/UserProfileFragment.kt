@@ -30,7 +30,7 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
 
 
 
-    // this variable stores hthe array list of the post
+    // this variable stores the array list of the post
     private var imageUrls = ArrayList<Post>()
     val userInfo: Profile?
         @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -157,7 +157,17 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
             findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
 
         }
+        binding.userFollowigText.setOnClickListener{
+            buttonPressed = "following"
+            bundle.putString("button", buttonPressed)
+            findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
+        }
         binding.followersCountText.setOnClickListener(){
+            buttonPressed = "followers"
+            bundle.putString("button", buttonPressed)
+            findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
+        }
+        binding.userFollowersText.setOnClickListener(){
             buttonPressed = "followers"
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
