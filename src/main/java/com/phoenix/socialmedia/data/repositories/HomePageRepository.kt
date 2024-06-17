@@ -189,7 +189,6 @@ class HomePageRepository {
                 }
                 _comments.value = commentList
             }
-
             .addOnFailureListener{
                 Log.i("Failed", it.message.toString())
             }

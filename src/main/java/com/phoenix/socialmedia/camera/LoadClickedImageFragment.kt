@@ -85,6 +85,11 @@ class LoadClickedImageFragment : Fragment() {
             }
         }
 
+        //todo :: change
+        binding.cancelUploadClickedImageButton.setOnClickListener{
+            findNavController().navigate(R.id.action_loadClickedImageFragment_to_messageFragment)
+        }
+
     }
 
     override fun onDestroyView() {

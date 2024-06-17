@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_loadClickedImageFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
+        <action
+            android:id="@+id/action_loadClickedImageFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -191,4 +194,9 @@
             android:name="position"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.phoenix.socialmedia.messages.MessageFragment"
+        android:label="message_fragment"
+        tools:layout="@layout/message_fragment" />
 </navigation>
