@@ -20,6 +20,11 @@ class MessageRepository {
     private val _messageList = MutableLiveData<ArrayList<Messages>>()
     val messageList : LiveData<ArrayList<Messages>> get() = _messageList
 
+
+//    Live data for all users we had conversation with
+    private val _conversationList = MutableLiveData<ArrayList<String>>()
+    val conversationList : LiveData<ArrayList<String>> get() = _conversationList
+
 //    messageOf variable is an email of the user of whose conversation we are loading from current user profile
 //    It is going to be a async function
     suspend fun getMessage(messageOf : String){
@@ -38,6 +43,7 @@ class MessageRepository {
                 msgList.add(msg)
 
             }
+            msgList.sortBy { it.messageTimeStamp }
             _messageList.value = msgList
 
 
@@ -52,18 +58,34 @@ class MessageRepository {
         try{
             val timestamp = Timestamp.now()
             val msg = hashMapOf(
-                "emailOfMessenger" to messageOf,
+                "emailOfMessenger" to auth.currentUser?.email.toString(),
                 "messageContent" to messageContent,
                 "messageTimeStamp" to timestamp)
 
-                var messages = db.collection("users")
+                    var messagesRef = db.collection("users")
                     .document(auth.currentUser?.email.toString())
                     .collection("messages")
                     .document(messageOf)
+
+                    messagesRef.set(hashMapOf("email" to auth.currentUser?.email.toString() ))
+                    messagesRef.collection("message")
+                    .add(msg)
+                    .await()
+
+                val receiverMsg = hashMapOf(
+                    "emailOfMessenger" to auth.currentUser?.email.toString(),
+                    "messageContent" to messageContent,
+                    "messageTimeStamp" to timestamp)
+
+                var receiverMessages = db.collection("users")
+                    .document(messageOf)
+                    .collection("messages")
+                    .document(auth.currentUser?.email.toString())
                     .collection("message")
                     .document()
-                    .set(msg)
+                    .set(receiverMsg)
                     .await()
+
         }
 
         catch (e : Exception){
@@ -71,6 +93,25 @@ class MessageRepository {
             }
     }
 
+    suspend fun getAllMessageOverView() {
+        val listOfEmail = ArrayList<String>()
+        try {
+            val docs = db
+                .collection("users")
+                .document(auth.currentUser?.email.toString())
+                .collection("messages")
+                .get()
+                .await()
+
+            for(doc in docs){
+                listOfEmail.add(doc.id)
+            }
+            _conversationList.value = listOfEmail
+        }
+        catch (e: Exception){
+            Log.e("Error", e.message.toString())
+        }
+    }
 
 
 }

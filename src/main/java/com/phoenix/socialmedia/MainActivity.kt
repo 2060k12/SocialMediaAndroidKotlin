@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(showBackState)
 
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

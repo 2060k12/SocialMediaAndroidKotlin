@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_homePageFragment_to_storyViewFragment"
             app:destination="@id/storyViewFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_messagesOverviewFragment"
+            app:destination="@id/messagesOverviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -87,6 +90,9 @@
         <action
             android:id="@+id/action_searchedProfileFragment_to_profilePostViewFragment"
             app:destination="@id/profilePostViewFragment" />
+        <action
+            android:id="@+id/action_searchedProfileFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -108,9 +114,6 @@
         <action
             android:id="@+id/action_loadClickedImageFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
-        <action
-            android:id="@+id/action_loadClickedImageFragment_to_messageFragment"
-            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -200,5 +203,18 @@
         android:id="@+id/messageFragment"
         android:name="com.phoenix.socialmedia.messages.MessageFragment"
         android:label="message_fragment"
-        tools:layout="@layout/message_fragment" />
+        tools:layout="@layout/message_fragment" >
+        <argument
+            android:name="sendMessageTo"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/messagesOverviewFragment"
+        android:name="com.phoenix.socialmedia.messages.MessagesOverviewFragment"
+        android:label="messages_overview_fragment"
+        tools:layout="@layout/messages_overview_fragment" >
+        <action
+            android:id="@+id/action_messagesOverviewFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+    </fragment>
 </navigation>

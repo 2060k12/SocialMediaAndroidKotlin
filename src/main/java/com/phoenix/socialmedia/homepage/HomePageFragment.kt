@@ -57,6 +57,7 @@ class HomePageFragment : Fragment(), OnItemClickListener{
         val mainActivity = requireActivity() as MainActivity
         mainActivity.actionBar("Home", R.drawable.add, showBarState = true)
 
+
         // binding for our view
         binding = HomePageFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -83,8 +84,9 @@ class HomePageFragment : Fragment(), OnItemClickListener{
 
         viewModel.post.observe(viewLifecycleOwner){
             post ->
-            newArrayList.clear()
-            newArrayList.addAll(post )
+
+            val newPosts = post.subList(newArrayList.size, post.size)
+            newArrayList.addAll(newPosts )
             binding.progressBarHomePage.visibility = View.GONE
             postRecyclerView.adapter?.notifyDataSetChanged()
         }
@@ -125,6 +127,9 @@ class HomePageFragment : Fragment(), OnItemClickListener{
             swipeRefreshLayout.isRefreshing = false
         }
 
+        binding.floatingActionButton.setOnClickListener(){
+            findNavController().navigate(R.id.action_homePageFragment_to_messagesOverviewFragment)
+        }
 
     }
 

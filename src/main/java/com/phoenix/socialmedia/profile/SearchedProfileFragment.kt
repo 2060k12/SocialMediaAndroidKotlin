@@ -150,7 +150,6 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
         bundle.putString("currentUserEmail", userInfo!!.email)
 
 
-
 //        get following list of the searched user
         binding.followingCountText.setOnClickListener(){
             buttonPressed = "following"
@@ -165,6 +164,14 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_searchedProfileFragment_to_followingFragment, bundle)
         }
+
+//        Message this user
+        binding.shareProfileButton.setOnClickListener(){
+            val messageBundle = Bundle()
+            messageBundle.putString("messageOf", userInfo!!.email)
+            findNavController().navigate(R.id.action_searchedProfileFragment_to_messageFragment, messageBundle)
+        }
+
     }
 
 
