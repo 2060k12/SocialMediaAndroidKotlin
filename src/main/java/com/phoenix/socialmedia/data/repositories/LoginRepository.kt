@@ -19,6 +19,7 @@ class LoginRepository {
 
     // function to sign up as a new user
     fun signUp(email: String, password: String, name: String, userName: String, callback: (Boolean) -> Unit){
+        val imageLink = "https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png"
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
@@ -28,6 +29,7 @@ class LoginRepository {
                         "name" to name,
                         "username" to userName,
                         "email" to email,
+                        "userImageUrl" to imageLink
                     )
                     // add a documents
                     db.collection("users")

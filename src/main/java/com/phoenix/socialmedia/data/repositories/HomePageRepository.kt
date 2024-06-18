@@ -138,7 +138,7 @@ class HomePageRepository {
     fun commentOnThePost(postId: String, email: String, comment: String){
         val newCollection = hashMapOf(
             "email" to auth.currentUser?.email.toString(),
-            "comment" to comment
+            "comment" to comment.trim()
             )
 
         db.collection("users")

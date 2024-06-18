@@ -2,11 +2,13 @@ package com.phoenix.socialmedia.homepage.posts.comment
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +17,7 @@ import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.databinding.CommentFragmentBinding
 import com.phoenix.socialmedia.homepage.posts.adapter.CommentAdapter
 
-class CommentFragment : Fragment() {
+class CommentFragment : DialogFragment() {
     private lateinit var binding: CommentFragmentBinding
 
     lateinit var recyclerView : RecyclerView
@@ -51,6 +53,10 @@ class CommentFragment : Fragment() {
             val comment = binding.commentTextBox.text
             viewModel.commentThePost(postId= postId.toString(), email =email.toString(), comment = comment.toString())
             viewModel.getAllComments(email!!,postId!!)
+            Toast.makeText(context, "Comment Uploaded", Toast.LENGTH_SHORT).show()
+            binding.commentTextBox.setText("")
+
+            
         }
 
         recyclerView = binding.commentViewRecyclerView
@@ -68,6 +74,17 @@ class CommentFragment : Fragment() {
         viewModel.getAllComments(email!!,postId!!)
 
 
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog?.window?.setGravity(Gravity.BOTTOM)
 
     }
 }

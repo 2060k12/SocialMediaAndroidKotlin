@@ -123,15 +123,17 @@
             app:popUpTo="@id/homePageFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/commentFragment"
         android:name="com.phoenix.socialmedia.homepage.posts.comment.CommentFragment"
         android:label="comment_fragment"
-        tools:layout="@layout/comment_fragment" >
+        tools:layout="@layout/comment_fragment"
+        >
+
         <argument
             android:name="post"
             app:argType="com.phoenix.socialmedia.data.Post" />
-    </fragment>
+    </dialog>
     <fragment
         android:id="@+id/editProfile"
         android:name="com.phoenix.socialmedia.profile.editUserProfile.EditProfileFragment"
