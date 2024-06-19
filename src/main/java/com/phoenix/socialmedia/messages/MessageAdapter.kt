@@ -34,10 +34,13 @@ class MessageAdapter (private val messageList: ArrayList<Messages>): RecyclerVie
         val currentMessage = messageList[position]
         if(currentMessage.emailOfMessenger == auth.currentUser?.email.toString()){
             holder.messageBox.setBackgroundColor(Color.BLUE)
+            holder.messageContent.setTextColor(Color.WHITE)
 
         }
         else{
             holder.messageBox.setBackgroundColor(Color.RED)
+            holder.messageContent.setTextColor(Color.WHITE)
+
         }
         holder.messageContent.text = currentMessage.messageContent
 

@@ -9,15 +9,18 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.phoenix.socialmedia.MainActivity
+import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Messages
 import com.phoenix.socialmedia.databinding.MessageFragmentBinding
+import com.phoenix.socialmedia.homepage.HomePageViewModel
 
 class MessageFragment : Fragment() {
 
     private lateinit var binding : MessageFragmentBinding
     private lateinit var recyclerView : RecyclerView
     private var messageList = ArrayList<Messages>()
-
+    lateinit var userImageLink :String
+    private  lateinit var userName :String
     private val sendMessageTo get() = arguments?.getString("messageOf")
 
     companion object {
@@ -25,14 +28,25 @@ class MessageFragment : Fragment() {
     }
 
     private val viewModel: MessageViewModel by viewModels()
+    private val homePageViewModel: HomePageViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        // getting userName and image
         mainActivity = requireActivity() as MainActivity
-        mainActivity.actionBar?.title = sendMessageTo
+
+        homePageViewModel.getUserProfileImage(sendMessageTo!!){
+            image, name ->
+            userImageLink = image
+            userName = name
+            mainActivity.actionBar(userName, R.drawable.add, showBarState = true, true)
+
+        }
         binding = MessageFragmentBinding.inflate(inflater, container, false)
         mainActivity.getNavigationBar().visibility = View.GONE
         return binding.root
@@ -64,7 +78,6 @@ class MessageFragment : Fragment() {
             }
         }
         viewModel.getMessage(sendMessageTo!!)
-
 
         binding.sendMessageButton.setOnClickListener{
             viewModel.uploadMessage(sendMessageTo!!, binding.messageEditText.text.toString())

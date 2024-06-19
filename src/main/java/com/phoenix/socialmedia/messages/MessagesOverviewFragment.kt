@@ -34,10 +34,10 @@ class MessagesOverviewFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.messageListRecyclerView
-
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = MessagesOverviewAdapter(listOfMessages, this)
+        val adapter = MessagesOverviewAdapter(listOfMessages, this)
+        recyclerView.adapter = adapter
 
 //        We will get the the name of users to whom we have messaged from current account
 //        To get the email of current user we will be using firebase auth, directly in repository, so we don't need to pass any arguments in this function
@@ -48,7 +48,7 @@ class MessagesOverviewFragment : Fragment(), OnItemClickListener {
             listOfMessages.clear()
             listOfMessages.addAll(list)
             viewModel.getAllMessageOverview()
-            recyclerView.adapter?.notifyDataSetChanged()
+            adapter?.notifyDataSetChanged()
         }
 
 

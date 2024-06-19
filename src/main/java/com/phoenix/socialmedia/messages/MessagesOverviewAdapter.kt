@@ -20,14 +20,13 @@ class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String
 
         init {
             itemView.setOnClickListener(){
-                val pos = layoutPosition
-                onItemClickListener.onItemClick(pos)
+                onItemClickListener.onItemClick(layoutPosition)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesOverviewViewHolder {
-        binding = MessageOverviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
+        binding = MessageOverviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MessagesOverviewViewHolder(binding.root)
     }
 
@@ -37,7 +36,6 @@ class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String
 
     override fun onBindViewHolder(holder: MessagesOverviewViewHolder, position: Int) {
         val currentItem = messagesSendersList[position]
-
 
 //        get the username from email
         viewModel.getUserProfileImage(currentItem) {

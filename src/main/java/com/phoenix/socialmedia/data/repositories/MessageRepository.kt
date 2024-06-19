@@ -77,11 +77,13 @@ class MessageRepository {
                     "messageContent" to messageContent,
                     "messageTimeStamp" to timestamp)
 
-                var receiverMessages = db.collection("users")
+                    var receiverMessages = db.collection("users")
                     .document(messageOf)
                     .collection("messages")
                     .document(auth.currentUser?.email.toString())
-                    .collection("message")
+
+                    receiverMessages.set(hashMapOf("email" to messageOf))
+                    receiverMessages.collection("message")
                     .document()
                     .set(receiverMsg)
                     .await()
