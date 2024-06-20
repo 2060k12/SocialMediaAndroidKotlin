@@ -14,7 +14,7 @@ class MessageViewModel : ViewModel() {
     private val messageRepository = MessageRepository()
 
     // livedata
-    val messageList : LiveData<ArrayList<Messages>> get() =   messageRepository.messageList
+    val messageList : LiveData<ArrayList<Messages>> =   messageRepository.messageList
 
 //    Livedata of list of email of users we had conversation with
     val conversationList get() = messageRepository.conversationList
@@ -41,6 +41,24 @@ class MessageViewModel : ViewModel() {
             messageRepository.getAllMessageOverView()
         }
 
+    }
+
+//    function to set read status of a conversation
+    fun setReadStatus(messageOf: String) {
+    viewModelScope.launch {
+        messageRepository.setReadStatus(messageOf)
+    }
+    }
+
+    fun getReadStatus(messageOf: String, status : (String) -> Unit) {
+       viewModelScope.launch {
+           messageRepository.getReadStatus(messageOf, status)
+       }
+    }
+    fun getReadStatusOverview(messageOf: String, status : (String) -> Unit) {
+        viewModelScope.launch {
+            messageRepository.getReadStatusOverview(messageOf, status)
+        }
     }
 
 }

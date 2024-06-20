@@ -9,15 +9,19 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.phoenix.socialmedia.data.Messages
 import com.phoenix.socialmedia.databinding.MessageRecyclerViewBinding
+import com.phoenix.socialmedia.homepage.HomePageViewModel
+import com.squareup.picasso.Picasso
 
 class MessageAdapter (private val messageList: ArrayList<Messages>): RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
     // using firebase auth
     private val auth = Firebase.auth
+    private val homePageViewModel = HomePageViewModel()
 
     lateinit var binding : MessageRecyclerViewBinding
     inner class MessageViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val messageContent = binding.messageText
-        val messageBox = binding.messageCard
+        var messageBox = binding.messageCard
+        val senderProfileImage = binding.senderProfileImage
 
     }
 
@@ -33,16 +37,23 @@ class MessageAdapter (private val messageList: ArrayList<Messages>): RecyclerVie
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val currentMessage = messageList[position]
         if(currentMessage.emailOfMessenger == auth.currentUser?.email.toString()){
-            holder.messageBox.setBackgroundColor(Color.BLUE)
+            holder.messageBox.setCardBackgroundColor(Color.BLUE)
             holder.messageContent.setTextColor(Color.WHITE)
 
         }
         else{
-            holder.messageBox.setBackgroundColor(Color.RED)
+            holder.messageBox.setCardBackgroundColor(Color.RED)
             holder.messageContent.setTextColor(Color.WHITE)
 
         }
         holder.messageContent.text = currentMessage.messageContent
+
+        homePageViewModel.getUserProfileImage(currentMessage.emailOfMessenger){
+            image, username ->
+            if(image.isNotEmpty()){
+                Picasso.get().load(image).resize(100,100).centerCrop().into(holder.senderProfileImage)
+            }
+        }
 
     }
 }

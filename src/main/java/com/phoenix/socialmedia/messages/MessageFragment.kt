@@ -56,6 +56,16 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getReadStatus(sendMessageTo!!){
+            status->
+            if(status.lowercase() == "seen"){
+                binding.chip.text = "Seen"
+            }
+            else{
+                binding.chip.text = "Sent"
+            }
+        }
+
         // initializing recycler view
         recyclerView = binding.messageRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
@@ -66,15 +76,28 @@ class MessageFragment : Fragment() {
 
         viewModel.messageList.observe(viewLifecycleOwner){
             message ->
-            // TODO: fix this
-
-            if(message.size != messageList.size) {
-                viewModel.getMessage(sendMessageTo!!)
+            viewModel.getMessage(sendMessageTo!!)
+            if(message.size > messageList.size) {
+                viewModel.setReadStatus(sendMessageTo!!)
                 val newMessages = message.subList(messageList.size, message.size)
                 messageList.addAll(newMessages)
-                recyclerView.adapter?.notifyDataSetChanged()
+                recyclerView.adapter?.notifyItemRangeChanged(0, message.lastIndex)
                 recyclerView.scrollToPosition(messageList.lastIndex)
 
+
+            }
+            viewModel.getReadStatus(sendMessageTo!!){
+                    status->
+                if(status.lowercase() == "seen"){
+                    binding.chip.text = "Seen"
+                }
+                else if(status.lowercase() == "received"){
+                    binding.chip.text = "Sent"
+                    viewModel.setReadStatus(sendMessageTo!!)
+                }
+                else{
+                    binding.chip.text = "Sent"
+                }
             }
         }
         viewModel.getMessage(sendMessageTo!!)
@@ -84,15 +107,17 @@ class MessageFragment : Fragment() {
             viewModel.getMessage(sendMessageTo!!)
             binding.messageEditText.setText("")
 
+
         }
 
 
 
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         mainActivity.getNavigationBar().visibility = View.VISIBLE
-
     }
+
 }

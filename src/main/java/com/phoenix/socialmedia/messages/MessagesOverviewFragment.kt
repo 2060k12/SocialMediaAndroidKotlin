@@ -59,5 +59,6 @@ class MessagesOverviewFragment : Fragment(), OnItemClickListener {
         val bundle = Bundle()
         bundle.putString("messageOf", listOfMessages[position] )
         findNavController().navigate(R.id.action_messagesOverviewFragment_to_messageFragment, bundle)
+        viewModel.setReadStatus(messageOf = listOfMessages[position])
     }
 }

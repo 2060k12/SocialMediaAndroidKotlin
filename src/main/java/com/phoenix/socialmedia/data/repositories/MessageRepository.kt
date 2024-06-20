@@ -23,7 +23,7 @@ class MessageRepository {
 
 //    Live data for all users we had conversation with
     private val _conversationList = MutableLiveData<ArrayList<String>>()
-    val conversationList : LiveData<ArrayList<String>> get() = _conversationList
+    val conversationList : LiveData<ArrayList<String>> = _conversationList
 
 //    messageOf variable is an email of the user of whose conversation we are loading from current user profile
 //    It is going to be a async function
@@ -54,6 +54,8 @@ class MessageRepository {
 
 
     }
+    // function to send message to another user
+    // async function
     suspend fun uploadMessage(messageOf : String, messageContent: String){
         try{
             val timestamp = Timestamp.now()
@@ -67,7 +69,7 @@ class MessageRepository {
                     .collection("messages")
                     .document(messageOf)
 
-                    messagesRef.set(hashMapOf("email" to auth.currentUser?.email.toString() ))
+                    messagesRef.set(hashMapOf("readStatus" to "sent" ))
                     messagesRef.collection("message")
                     .add(msg)
                     .await()
@@ -82,7 +84,7 @@ class MessageRepository {
                     .collection("messages")
                     .document(auth.currentUser?.email.toString())
 
-                    receiverMessages.set(hashMapOf("email" to messageOf))
+                    receiverMessages.set(hashMapOf("readStatus" to "received"))
                     receiverMessages.collection("message")
                     .document()
                     .set(receiverMsg)
@@ -115,5 +117,50 @@ class MessageRepository {
         }
     }
 
+    // When user sees the message, the status will be set to seen
+    // messageOf is a variable which contains the other user with whom the conversation is held in between
+    suspend fun setReadStatus(messageOf: String) {
+        try {
+            var messagesRef = db.collection("users")
+                .document(auth.currentUser?.email.toString())
+                .collection("messages")
+                .document(messageOf)
+            messagesRef.set(hashMapOf("readStatus" to "Seen")).await()
+        }
+        catch (e: Exception){
+            Log.e("Error", e.message.toString())
+        }
+    }
+
+    // function to get the status of message
+    suspend fun getReadStatus(messageOf: String, status : (String) -> Unit ){
+        try {
+            val messagesRef = db.collection("users")
+                .document(messageOf)
+                .collection("messages")
+                .document(auth.currentUser?.email.toString())
+                .get()
+                .await()
+                status(messagesRef.get("readStatus").toString())
+        }
+        catch (e: Exception){
+            Log.e("Error", e.message.toString())
+        }
+    }
+
+    suspend fun getReadStatusOverview(messageOf: String, status : (String) -> Unit ){
+        try {
+            val messagesRef = db.collection("users")
+                .document(auth.currentUser?.email.toString())
+                .collection("messages")
+                .document(messageOf)
+                .get()
+                .await()
+            status(messagesRef.get("readStatus").toString())
+        }
+        catch (e: Exception){
+            Log.e("Error", e.message.toString())
+        }
+    }
 
 }
