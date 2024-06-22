@@ -57,11 +57,11 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
         }
 
 
-            holder.likeButton.setOnClickListener() {
+            holder.likeButton.setOnClickListener {
             commentViewModel.likeThePost(email = currentItem.email, postId = currentItem.postId)
         }
 
-        holder.addCommentButton.setOnClickListener() {
+        holder.addCommentButton.setOnClickListener {
             val bundle: Bundle = Bundle()
             bundle.putParcelable("postInfo", currentItem)
             navController.navigate(R.id.action_homePageFragment_to_commentFragment, bundle)

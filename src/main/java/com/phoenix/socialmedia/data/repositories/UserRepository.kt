@@ -27,7 +27,7 @@ class UserRepository  {
                 }
                 _searchResults.value = searchList
             }
-            .addOnFailureListener() { it ->
+            .addOnFailureListener { it ->
                 Log.i("Error", it.toString())
             }
     }

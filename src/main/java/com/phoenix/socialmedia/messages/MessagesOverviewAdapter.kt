@@ -22,7 +22,7 @@ class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String
         val messageStatusChip :Chip = binding.messageStatusChip
 
         init {
-            itemView.setOnClickListener(){
+            itemView.setOnClickListener {
                 onItemClickListener.onItemClick(layoutPosition)
             }
         }

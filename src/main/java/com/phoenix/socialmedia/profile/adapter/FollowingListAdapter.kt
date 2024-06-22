@@ -54,7 +54,7 @@ class FollowingListAdapter(private var followingList : ArrayList<Profile>, priva
             Picasso.get().load(currentItem.userImageUrl).resize(200, 200).centerCrop()
                 .into(holder.uerProfileImage)
         }
-            holder.removeFollowingButton. setOnClickListener(){
+            holder.removeFollowingButton. setOnClickListener {
                 if (holder.removeFollowingButton.text.toString().lowercase() == "following" ){
                     profileViewMode.removeFollowing(currentItem.email)
                     holder.removeFollowingButton.text = "Follow"

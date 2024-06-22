@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
 class UserPostAdapter(private var post: ArrayList<Post>, private var itemCLick: OnItemClickListener)  :RecyclerView.Adapter<UserPostAdapter.UserPostViewHolder>() {
 
     lateinit var binding: UserProfileRecyclerViewBinding
-    private lateinit var mAdview: AdView;
+    private lateinit var mAdview: AdView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserPostViewHolder {
 

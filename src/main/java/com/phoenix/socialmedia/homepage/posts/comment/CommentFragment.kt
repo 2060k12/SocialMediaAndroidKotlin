@@ -49,7 +49,7 @@ class CommentFragment : DialogFragment() {
 
 
         // When user press the "uploadComment" button
-        binding.uploadComment.setOnClickListener(){
+        binding.uploadComment.setOnClickListener {
             val comment = binding.commentTextBox.text
             viewModel.commentThePost(postId= postId.toString(), email =email.toString(), comment = comment.toString())
             viewModel.getAllComments(email!!,postId!!)

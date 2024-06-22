@@ -125,7 +125,10 @@ class MessageRepository {
                 .document(auth.currentUser?.email.toString())
                 .collection("messages")
                 .document(messageOf)
-            messagesRef.set(hashMapOf("readStatus" to "Seen")).await()
+
+
+            if(messagesRef.get().await().get("readStatus").toString().lowercase() != "seen"){
+            messagesRef.set(hashMapOf("readStatus" to "Seen")).await()}
         }
         catch (e: Exception){
             Log.e("Error", e.message.toString())
@@ -141,7 +144,7 @@ class MessageRepository {
                 .document(auth.currentUser?.email.toString())
                 .get()
                 .await()
-                status(messagesRef.get("readStatus").toString())
+            status(messagesRef.get("readStatus").toString())
         }
         catch (e: Exception){
             Log.e("Error", e.message.toString())

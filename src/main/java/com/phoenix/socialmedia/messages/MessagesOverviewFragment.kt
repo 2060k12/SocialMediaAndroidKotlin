@@ -25,7 +25,7 @@ class MessagesOverviewFragment : Fragment(), OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = MessagesOverviewFragmentBinding.inflate(layoutInflater)
         return binding.root
@@ -48,7 +48,7 @@ class MessagesOverviewFragment : Fragment(), OnItemClickListener {
             listOfMessages.clear()
             listOfMessages.addAll(list)
             viewModel.getAllMessageOverview()
-            adapter?.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
         }
 
 

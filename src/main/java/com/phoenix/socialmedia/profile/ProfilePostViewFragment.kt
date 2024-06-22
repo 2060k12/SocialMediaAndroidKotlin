@@ -48,7 +48,7 @@ lateinit var mainActivity: MainActivity
         }
         binding.postViewProgressView.visibility = View.GONE
 
-        binding.commentClickPostButton.setOnClickListener(){
+        binding.commentClickPostButton.setOnClickListener {
             val bundle: Bundle = Bundle()
             bundle.putParcelable("postInfo", post)
             findNavController().navigate(R.id.action_profilePostViewFragment_to_commentFragment, bundle)

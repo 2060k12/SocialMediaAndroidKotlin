@@ -16,11 +16,11 @@ import com.phoenix.socialmedia.homepage.HomePageViewModel
 
 class MessageFragment : Fragment() {
 
-    private lateinit var binding : MessageFragmentBinding
-    private lateinit var recyclerView : RecyclerView
+    private lateinit var binding: MessageFragmentBinding
+    private lateinit var recyclerView: RecyclerView
     private var messageList = ArrayList<Messages>()
-    lateinit var userImageLink :String
-    private  lateinit var userName :String
+    lateinit var userImageLink: String
+    private lateinit var userName: String
     private val sendMessageTo get() = arguments?.getString("messageOf")
 
     companion object {
@@ -40,8 +40,7 @@ class MessageFragment : Fragment() {
         // getting userName and image
         mainActivity = requireActivity() as MainActivity
 
-        homePageViewModel.getUserProfileImage(sendMessageTo!!){
-            image, name ->
+        homePageViewModel.getUserProfileImage(sendMessageTo!!) { image, name ->
             userImageLink = image
             userName = name
             mainActivity.actionBar(userName, R.drawable.add, showBarState = true, true)
@@ -56,60 +55,54 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getReadStatus(sendMessageTo!!){
-            status->
-            if(status.lowercase() == "seen"){
+        viewModel.getReadStatus(sendMessageTo!!) { status ->
+            if (status.lowercase() == "seen") {
                 binding.chip.text = "Seen"
-            }
-            else{
+            } else {
                 binding.chip.text = "Sent"
             }
         }
 
         // initializing recycler view
         recyclerView = binding.messageRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.setHasFixedSize(true)
         // adapter
         val adapter = MessageAdapter(messageList)
         recyclerView.adapter = adapter
 
-        viewModel.messageList.observe(viewLifecycleOwner){
-            message ->
+        viewModel.messageList.observe(viewLifecycleOwner) { message ->
             viewModel.getMessage(sendMessageTo!!)
-            if(message.size > messageList.size) {
+            if (message.size > messageList.size) {
                 viewModel.setReadStatus(sendMessageTo!!)
                 val newMessages = message.subList(messageList.size, message.size)
                 messageList.addAll(newMessages)
-                recyclerView.adapter?.notifyItemRangeChanged(0, message.lastIndex)
+                recyclerView.adapter?.notifyItemRangeInserted(messageList.size, newMessages.size)
                 recyclerView.scrollToPosition(messageList.lastIndex)
 
 
             }
-            viewModel.getReadStatus(sendMessageTo!!){
-                    status->
-                if(status.lowercase() == "seen"){
+            viewModel.getReadStatus(sendMessageTo!!) { status ->
+                if (status.lowercase() == "seen") {
                     binding.chip.text = "Seen"
-                }
-                else if(status.lowercase() == "received"){
+                } else if (status.lowercase() == "received") {
                     binding.chip.text = "Sent"
                     viewModel.setReadStatus(sendMessageTo!!)
-                }
-                else{
+                } else {
                     binding.chip.text = "Sent"
                 }
             }
         }
         viewModel.getMessage(sendMessageTo!!)
 
-        binding.sendMessageButton.setOnClickListener{
+        binding.sendMessageButton.setOnClickListener {
             viewModel.uploadMessage(sendMessageTo!!, binding.messageEditText.text.toString())
             viewModel.getMessage(sendMessageTo!!)
             binding.messageEditText.setText("")
 
 
         }
-
 
 
     }

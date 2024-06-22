@@ -25,7 +25,7 @@ class SearchedResultAdapter(private var searchedUsers : ArrayList<Profile>, priv
         val currentItem = searchedUsers[position]
         if(currentItem.userImageUrl.isNotEmpty()){
 
-            Picasso.get().load(currentItem.userImageUrl ?: "https://cdn.pixabay.com/photo/2020/10/11/19/51/cat-5646889_1280.jpg").resize(200,200).centerCrop().into(holder.searchedUserImageView)
+            Picasso.get().load(currentItem.userImageUrl).resize(200,200).centerCrop().into(holder.searchedUserImageView)
         }
         holder.searchUserName.text = currentItem.username
 

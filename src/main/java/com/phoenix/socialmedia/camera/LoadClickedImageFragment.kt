@@ -25,7 +25,7 @@ class LoadClickedImageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Setting up action bar
         mainActivity = requireActivity() as MainActivity
         mainActivity.actionBar("Upload", R.drawable.add, showBarState = true, true)
@@ -46,7 +46,7 @@ class LoadClickedImageFragment : Fragment() {
             Picasso.get().load(imageUrl).into(binding.clickedImageView)
         }
 
-        binding.uploadClickedImageButton.setOnClickListener(){
+        binding.uploadClickedImageButton.setOnClickListener {
             binding.uploadImageProgressBar.visibility = View.VISIBLE
             val caption = binding.addCaptionTextBox.text.toString()
             viewModel.uploadImage(imageUrl!!){
@@ -72,7 +72,7 @@ class LoadClickedImageFragment : Fragment() {
             }
         }
 
-        binding.addToStoryButton.setOnClickListener(){
+        binding.addToStoryButton.setOnClickListener {
             val timeStamp :java.util.Date = Timestamp.now().toDate()
 
             viewModel.uploadImage(imageUrl!!){

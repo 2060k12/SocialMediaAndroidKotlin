@@ -140,7 +140,7 @@ class ProfileRepository {
                     .addOnSuccessListener {
                         Log.i("Success", "Successfully followed $email")
                     }
-                    .addOnFailureListener() {
+                    .addOnFailureListener {
 
 
                     }
@@ -230,7 +230,7 @@ class ProfileRepository {
             .addOnSuccessListener {
                 Log.i("Success", "successfully edited")
             }
-            .addOnFailureListener() {
+            .addOnFailureListener {
                 Log.i("Failed", it.message.toString())
 
             }
@@ -281,7 +281,7 @@ class ProfileRepository {
                   }
               }
             }
-            .addOnFailureListener(){
+            .addOnFailureListener {
                 state(false)
             }
 

@@ -49,7 +49,7 @@ class CameraFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Setting up action bar
         mainActivity = requireActivity() as MainActivity
@@ -77,17 +77,17 @@ class CameraFragment : Fragment() {
 
         }
 
-        binding.captureImageButton.setOnClickListener(){
+        binding.captureImageButton.setOnClickListener {
             takePhoto()
         }
 
-        binding.rotateCameraButton.setOnClickListener(){
+        binding.rotateCameraButton.setOnClickListener {
             cameraFacingFront = !cameraFacingFront
             startCamera()
 
         }
 
-        binding.goToGalleryButton.setOnClickListener(){
+        binding.goToGalleryButton.setOnClickListener {
             openGallery()
         }
 

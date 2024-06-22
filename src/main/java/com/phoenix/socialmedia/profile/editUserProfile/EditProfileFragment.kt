@@ -61,22 +61,22 @@ class EditProfileFragment : Fragment() {
         }
 
         // When FullName card view is clicked
-        binding.editNameCardView.setOnClickListener(){
+        binding.editNameCardView.setOnClickListener {
             editInformation(editType = "name", editInformation = binding.fullNameProfileTextView.text.toString() )
         }
 
 
         // When Username card view is clicked
-        binding.editUserNameCardView.setOnClickListener(){
+        binding.editUserNameCardView.setOnClickListener {
             editInformation(editType = "username", editInformation = binding.userNameProfileTextView.text.toString() )
         }
         // When Bio card view is clicked
-        binding.editBioCardView.setOnClickListener(){
+        binding.editBioCardView.setOnClickListener {
             editInformation(editType = "userCaption", editInformation = binding.bioProfileTextView.text.toString() )
         }
 
         // Logout button
-        binding.logOutButton.setOnClickListener(){
+        binding.logOutButton.setOnClickListener {
             Firebase.auth.signOut()
             findNavController().navigate(R.id.action_editProfile_to_loginFragment)
         }

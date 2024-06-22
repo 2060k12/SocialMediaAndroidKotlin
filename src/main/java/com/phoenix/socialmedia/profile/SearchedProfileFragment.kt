@@ -85,7 +85,7 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
     viewModel.profile.observe(viewLifecycleOwner){
     it->
     if(it.userImageUrl.isNotEmpty()){
-        Picasso.get().load(it.userImageUrl?: "").resize(200,200).centerCrop().into(binding.profileImageView)
+        Picasso.get().load(it.userImageUrl).resize(200,200).centerCrop().into(binding.profileImageView)
         binding.fullNameTextView.text = it?.name?: ""
         binding.userProfileCaption.text = it?.userCaption?: ""
 
@@ -111,7 +111,7 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
         viewModel.getUserAddedImages(userInfo!!.email)
 
         // Follows the user
-        binding.followButton.setOnClickListener(){
+        binding.followButton.setOnClickListener {
             if(binding.followButton.text.toString().lowercase() == "follow")
             {
             viewModel.followUser(userInfo!!.email)
@@ -151,7 +151,7 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
 
 
 //        get following list of the searched user
-        binding.followingCountText.setOnClickListener(){
+        binding.followingCountText.setOnClickListener {
             buttonPressed = "following"
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_searchedProfileFragment_to_followingFragment, bundle)
@@ -166,7 +166,7 @@ class SearchedProfileFragment : Fragment(), OnItemClickListener {
         }
 
 //        Message this user
-        binding.shareProfileButton.setOnClickListener(){
+        binding.shareProfileButton.setOnClickListener {
             val messageBundle = Bundle()
             messageBundle.putString("messageOf", userInfo!!.email)
             findNavController().navigate(R.id.action_searchedProfileFragment_to_messageFragment, messageBundle)

@@ -40,7 +40,7 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.CreateNewAccountButton.setOnClickListener(){
+        binding.CreateNewAccountButton.setOnClickListener {
             var email = binding.emailTextBox.text.toString()
             var password = binding.passwordTextBox.text.toString()
             var userName = binding.userNameTextBox.text.toString()

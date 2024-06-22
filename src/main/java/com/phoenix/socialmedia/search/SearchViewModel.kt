@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.data.repositories.UserRepository
 
-class SearchViewModel() : ViewModel() {
+class SearchViewModel : ViewModel() {
     val userRepository = UserRepository()
     val searchResults :LiveData<ArrayList<Profile>> get() = userRepository.searchResults
 

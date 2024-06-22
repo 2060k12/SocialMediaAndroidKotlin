@@ -129,7 +129,7 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
 
 
         // navigate to editProfile Screen
-        binding.editProfileButton.setOnClickListener(){
+        binding.editProfileButton.setOnClickListener {
             if(userProfile?.email.toString().isNotEmpty()){
 
                 viewModel.getCurrentProfileDetails(auth.currentUser?.email.toString())
@@ -151,7 +151,7 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
         val bundle = Bundle()
         var buttonPressed : String
         bundle.putString("currentUserEmail", currentUser)
-        binding.followingCountText.setOnClickListener(){
+        binding.followingCountText.setOnClickListener {
             buttonPressed = "following"
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
@@ -162,12 +162,12 @@ class UserProfileFragment : Fragment(), OnItemClickListener {
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
         }
-        binding.followersCountText.setOnClickListener(){
+        binding.followersCountText.setOnClickListener {
             buttonPressed = "followers"
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)
         }
-        binding.userFollowersText.setOnClickListener(){
+        binding.userFollowersText.setOnClickListener {
             buttonPressed = "followers"
             bundle.putString("button", buttonPressed)
             findNavController().navigate(R.id.action_userProfileFragment_to_followingFragment, bundle)

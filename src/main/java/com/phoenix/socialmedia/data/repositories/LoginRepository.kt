@@ -21,7 +21,7 @@ class LoginRepository {
     fun signUp(email: String, password: String, name: String, userName: String, callback: (Boolean) -> Unit){
         val imageLink = "https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png"
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener() { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
 
@@ -50,7 +50,7 @@ class LoginRepository {
     fun signIn(email: String, password: String, callback: (Boolean) ->Unit) {
 
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener() { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     callback(true)

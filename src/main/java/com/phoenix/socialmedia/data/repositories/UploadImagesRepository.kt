@@ -45,7 +45,7 @@ class UploadImagesRepository {
                 .addOnSuccessListener {
                     callback(true)
                 }
-                .addOnFailureListener(){
+                .addOnFailureListener {
                     callback(false)
                 }
         }
@@ -63,7 +63,7 @@ class UploadImagesRepository {
             }
         val uriTask = uploadTask.continueWithTask{
             storageReference.downloadUrl
-                .addOnCompleteListener(){
+                .addOnCompleteListener {
                         task ->
                     if(task.isSuccessful){
                         downloadUrl = task.result

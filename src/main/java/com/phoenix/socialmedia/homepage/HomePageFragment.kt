@@ -127,7 +127,7 @@ class HomePageFragment : Fragment(), OnItemClickListener{
             swipeRefreshLayout.isRefreshing = false
         }
 
-        binding.floatingActionButton.setOnClickListener(){
+        binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_homePageFragment_to_messagesOverviewFragment)
         }
 

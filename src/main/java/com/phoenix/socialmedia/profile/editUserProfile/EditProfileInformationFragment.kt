@@ -24,7 +24,7 @@ class EditProfileInformationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Setting up action bar
         val mainActivity = requireActivity() as MainActivity
         mainActivity.actionBar(editType!!.uppercase(), R.drawable.add, showBarState = true, true)
@@ -41,7 +41,7 @@ class EditProfileInformationFragment : Fragment() {
         binding.editProfileInformationTextBox.requestFocus()
 
 
-        binding.button.setOnClickListener(){
+        binding.button.setOnClickListener {
             binding.editInformationProgressBar.visibility = View.VISIBLE
             if(binding.editProfileInformationTextBox.text.toString().isNotEmpty()&& editType != null){
                 
