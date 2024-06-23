@@ -45,9 +45,13 @@ class MessagesOverviewFragment : Fragment(), OnItemClickListener {
 
         viewModel.conversationList.observe(viewLifecycleOwner){
             list ->
-            listOfMessages.clear()
-            listOfMessages.addAll(list)
-            viewModel.getAllMessageOverview()
+            if(list.size> listOfMessages.size){
+                viewModel.getAllMessageOverview()
+                val newList = list.subList(listOfMessages.size, list.size)
+                listOfMessages.addAll(newList)
+            }
+
+
             adapter.notifyDataSetChanged()
         }
 

@@ -4,5 +4,11 @@
     <string name="take_photo">Take Photo</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="story">Story</string>
+    <string name="upload">Upload</string>
+    <string name="image">Image</string>
+    <string name="follow_to_see_posts">Follow to see posts</string>
+    <string name="who_s_on_your_mind">Who\'s on your mind?</string>
 
 </resources>

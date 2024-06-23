@@ -48,8 +48,9 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
                 holder.userNameTextView.text = userName
 
             }
-
-
+        if(currentItem.caption.isNotEmpty()){
+            holder.captionTextView.visibility = View.VISIBLE
+        }
 
         if (currentItem.imageUrl.isNotEmpty()) {
             Picasso.get().load(currentItem.imageUrl).resize(500, 500).centerCrop()
@@ -77,11 +78,7 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
         val userProfileImage : ImageView = itemView.findViewById(R.id.userProfileImageView)
         val postImageView : ImageView = itemView.findViewById(R.id.postImageView)
         val dateTimeTextView : TextView = itemView.findViewById(R.id.dateTimeTextView)
-//
-//        val adCardView: CardView = itemView.findViewById(R.id.adCardView)
-//        val adView: AdView = itemView.findViewById(R.id.adView)
-//        val postCardView: CardView = itemView.findViewById(R.id.postCardView)
-//
+
         val likeButton: ImageButton = itemView.findViewById(R.id.likePostButton)
         val addCommentButton : ImageButton = itemView.findViewById(R.id.addCommentButton)
 

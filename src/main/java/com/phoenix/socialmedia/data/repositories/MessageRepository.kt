@@ -64,12 +64,17 @@ class MessageRepository {
                 "messageContent" to messageContent,
                 "messageTimeStamp" to timestamp)
 
-                    var messagesRef = db.collection("users")
+                    val messagesRef = db.collection("users")
                     .document(auth.currentUser?.email.toString())
                     .collection("messages")
                     .document(messageOf)
 
-                    messagesRef.set(hashMapOf("readStatus" to "sent" ))
+                    // if the read status is already sent this if condition will not update it
+                    if(messagesRef.get().await().get("readStatus").toString().lowercase() != "sent"){
+                    messagesRef.set(hashMapOf("readStatus" to "sent",
+                        "lastUpdated" to timestamp
+                        ))}
+
                     messagesRef.collection("message")
                     .add(msg)
                     .await()
@@ -84,12 +89,14 @@ class MessageRepository {
                     .collection("messages")
                     .document(auth.currentUser?.email.toString())
 
-                    receiverMessages.set(hashMapOf("readStatus" to "received"))
+                    // if the status is already received it wont be changed again
+                    if(receiverMessages.get().await().get("readStatus").toString().lowercase() != "received"){
+                    receiverMessages.set(hashMapOf("readStatus" to "received",
+                        "lastUpdated" to timestamp))}
                     receiverMessages.collection("message")
                     .document()
                     .set(receiverMsg)
                     .await()
-
         }
 
         catch (e : Exception){
@@ -110,8 +117,7 @@ class MessageRepository {
             for(doc in docs){
                 listOfEmail.add(doc.id)
             }
-            _conversationList.value = listOfEmail
-        }
+            _conversationList.value = listOfEmail  }
         catch (e: Exception){
             Log.e("Error", e.message.toString())
         }

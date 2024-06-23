@@ -1,10 +1,14 @@
 package com.phoenix.socialmedia.profile.editUserProfile
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -81,19 +85,37 @@ class EditProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_editProfile_to_loginFragment)
         }
 
+        // editProfileImage
+        binding.imageView.setOnClickListener(){
+            val getImageFromGalleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            getImageFromGalleryIntent.type = "image/*"
+            startActivityForResult(getImageFromGalleryIntent, 100)
 
 
-
-
-
+        }
     }
-    fun editInformation(editType: String, editInformation: String){
+    private fun editInformation(editType: String, editInformation: String){
         val bundle = bundleOf(
             "editType" to editType,
             "editInformation" to editInformation
         )
 
         findNavController().navigate(R.id.action_editProfile_to_editProfileInformationFragment, bundle)
+
+    }
+
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 100 && resultCode == Activity.RESULT_OK){
+            val selectedImageUri = data?.data
+            if(selectedImageUri!= null){
+                viewModel.updateProfileImage(selectedImageUri)
+                Toast.makeText(context, "New Profile Picture Added", Toast.LENGTH_SHORT).show()
+
+            }
+        }
 
     }
 

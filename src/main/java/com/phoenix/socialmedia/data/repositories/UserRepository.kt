@@ -4,12 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.phoenix.socialmedia.data.Profile
 
 
 class UserRepository  {
-
+    val auth = Firebase.auth
     val db = Firebase.firestore
     private val _searchResults = MutableLiveData<ArrayList<Profile>>()
     val searchResults : LiveData<ArrayList<Profile>> get() = _searchResults
@@ -23,6 +24,7 @@ class UserRepository  {
                     documents->
                 for (doc in documents){
                     val profile = doc.toObject(Profile::class.java)
+                    if(profile.email == auth.currentUser?.email.toString()){continue}
                     searchList.add(profile)
                 }
                 _searchResults.value = searchList

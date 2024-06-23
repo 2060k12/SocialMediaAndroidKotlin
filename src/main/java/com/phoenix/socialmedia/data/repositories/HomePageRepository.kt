@@ -225,7 +225,6 @@ class HomePageRepository {
 
     suspend fun getAllStory() {
         val storyList = ArrayList<Story>()
-        val delList = ArrayList<Story>()
         val currentUserEmail = auth.currentUser?.email.toString()
 
         try {
@@ -244,13 +243,30 @@ class HomePageRepository {
 
                 for (document in storyResult) {
                     val story = document.toObject(Story::class.java)
-                    if (story.email in followingEmails ){
+                    val diff = getTimeDifference(story.timeStamp.toDate().time)
+
+                   // If  a co
+                    if(diff.contains('d') ){
+                        db.collection("users")
+                            .document(story.email)
+                            .collection("story")
+                            .document(document.id)
+                            .delete()
+                            .addOnCompleteListener {
+                                Log.i("Delete", "Success")
+                            }
+                    }
+
+
+                    else if (story.email in followingEmails ){
                         storyList.add(story)
                     }
                 }
 
 
-                storyList.sortBy { it.timestamp }
+                storyList.sortBy { it.timeStamp }
+
+
                 _story.value = storyList
 
             }

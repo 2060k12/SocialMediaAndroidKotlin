@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class Story(
     val imageUrl : String,
     val email: String,
-    val timestamp: Timestamp
+    val timeStamp: Timestamp
 ) : Parcelable {
     constructor(): this("","", Timestamp.now())
 }

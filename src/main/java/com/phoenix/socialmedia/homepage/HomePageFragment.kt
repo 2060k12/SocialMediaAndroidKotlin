@@ -75,6 +75,7 @@ class HomePageFragment : Fragment(), OnItemClickListener{
 
         // For posts
         viewModel.getALlPost()
+
         postRecyclerView = binding.postRecyclerView
         postRecyclerView.layoutManager = LinearLayoutManager(context)
         postRecyclerView.setHasFixedSize(true)
@@ -84,6 +85,12 @@ class HomePageFragment : Fragment(), OnItemClickListener{
 
         viewModel.post.observe(viewLifecycleOwner){
             post ->
+            if(post.isEmpty()){
+                binding.noteTextView.visibility = View.VISIBLE
+            }
+            else{
+                binding.noteTextView.visibility = View.GONE
+            }
 
             val newPosts = post.subList(newArrayList.size, post.size)
             newArrayList.addAll(newPosts )
@@ -119,10 +126,8 @@ class HomePageFragment : Fragment(), OnItemClickListener{
                 newArrayList.clear()
                 newArrayList.addAll(newArrayList)
                 postRecyclerView.adapter?.notifyDataSetChanged()
-
             }
             refreshCount ++
-
 
             swipeRefreshLayout.isRefreshing = false
         }
@@ -134,7 +139,7 @@ class HomePageFragment : Fragment(), OnItemClickListener{
     }
 
     override fun onItemClick(position: Int) {
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putInt("position", position)
         bundle.putParcelableArrayList("storyList", storyArrayList)
         findNavController().navigate(R.id.action_homePageFragment_to_storyViewFragment, bundle)

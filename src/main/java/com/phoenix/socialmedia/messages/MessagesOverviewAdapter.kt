@@ -10,7 +10,7 @@ import com.phoenix.socialmedia.homepage.HomePageViewModel
 import com.phoenix.socialmedia.utils.OnItemClickListener
 import com.squareup.picasso.Picasso
 
-class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String>, private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<MessagesOverviewAdapter.MessagesOverviewViewHolder>(){
+class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String>, private var itemClick: OnItemClickListener) : RecyclerView.Adapter<MessagesOverviewAdapter.MessagesOverviewViewHolder>(){
     private lateinit var binding : MessageOverviewRecyclerViewBinding
     private val viewModel = MessageViewModel()
     private val homePageViewModel = HomePageViewModel()
@@ -22,8 +22,9 @@ class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String
         val messageStatusChip :Chip = binding.messageStatusChip
 
         init {
+
             itemView.setOnClickListener {
-                onItemClickListener.onItemClick(layoutPosition)
+                itemClick.onItemClick(layoutPosition)
             }
         }
     }

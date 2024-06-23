@@ -1,5 +1,6 @@
 package com.phoenix.socialmedia.data.repositories
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,13 +10,17 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.storage.FirebaseStorage
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.data.Profile
 import kotlinx.coroutines.tasks.await
 import java.util.Date
+import java.util.UUID
 
 class ProfileRepository {
 
+    // firestorage
+    private val fireStorage = FirebaseStorage.getInstance()
 
 
     // firebase auth & firestore database
@@ -284,6 +289,26 @@ class ProfileRepository {
             .addOnFailureListener {
                 state(false)
             }
+
+    }
+
+    fun updateProfileImage(selectedImageUri: Uri) {
+
+        var downloadUrl : Uri
+        val path: String = "${auth.currentUser?.email}/post" + UUID.randomUUID() + ".png"
+        val storageReference = fireStorage.getReference(path)
+        val putFile = storageReference.putFile(selectedImageUri)
+        putFile.continueWithTask(){
+            storageReference.downloadUrl
+                .addOnCompleteListener {
+                    uri->
+                    downloadUrl = uri.result
+                    val updateDownloadUrl = hashMapOf("userImageUrl" to downloadUrl)
+                    db.collection("users")
+                        .document(auth.currentUser?.email.toString())
+                        .update(updateDownloadUrl as Map<String, Any>)
+                }
+        }
 
     }
 

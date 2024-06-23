@@ -1,5 +1,6 @@
 package com.phoenix.socialmedia.messages
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,10 @@ import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Messages
 import com.phoenix.socialmedia.databinding.MessageFragmentBinding
 import com.phoenix.socialmedia.homepage.HomePageViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MessageFragment : Fragment() {
 
@@ -52,6 +57,7 @@ class MessageFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,7 +81,8 @@ class MessageFragment : Fragment() {
         viewModel.messageList.observe(viewLifecycleOwner) { message ->
             viewModel.getMessage(sendMessageTo!!)
             if (message.size > messageList.size) {
-                viewModel.setReadStatus(sendMessageTo!!)
+                setStatus()
+
                 val newMessages = message.subList(messageList.size, message.size)
                 messageList.addAll(newMessages)
                 recyclerView.adapter?.notifyItemRangeInserted(messageList.size, newMessages.size)
@@ -100,10 +107,7 @@ class MessageFragment : Fragment() {
             viewModel.uploadMessage(sendMessageTo!!, binding.messageEditText.text.toString())
             viewModel.getMessage(sendMessageTo!!)
             binding.messageEditText.setText("")
-
-
         }
-
 
     }
 
@@ -111,6 +115,15 @@ class MessageFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         mainActivity.getNavigationBar().visibility = View.VISIBLE
+    }
+
+    private fun setStatus(){
+        CoroutineScope(Dispatchers.Main).launch{
+            delay(1000)
+            viewModel.setReadStatus(sendMessageTo!!)
+
+        }
+
     }
 
 }

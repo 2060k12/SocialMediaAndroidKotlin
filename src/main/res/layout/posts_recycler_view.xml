@@ -50,11 +50,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/addCommentButton"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-                app:layout_constraintStart_toEndOf="@+id/addCommentButton"
-                app:layout_constraintTop_toTopOf="@+id/addCommentButton" />
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postImageView" />
 
             <TextView
                 android:id="@+id/dateTimeTextView"
@@ -90,31 +91,23 @@
                 android:id="@+id/addCommentButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/likePostButton"
-                app:layout_constraintTop_toBottomOf="@+id/postImageView"
+                app:layout_constraintTop_toBottomOf="@+id/captionTextView"
                 app:srcCompat="@drawable/chatbubble" />
 
             <ImageButton
                 android:id="@+id/likePostButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="4dp"
-                android:scaleType="centerInside"
+                android:backgroundTint="#00FFFFFF"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postImageView"
+                app:layout_constraintTop_toBottomOf="@+id/captionTextView"
                 app:srcCompat="@drawable/heart" />
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postImageView"
-                app:srcCompat="@drawable/add" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

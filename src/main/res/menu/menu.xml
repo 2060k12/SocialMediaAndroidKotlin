@@ -14,10 +14,6 @@
         android:icon="@drawable/add"
         android:title="Add" />
     <item
-        android:id="@+id/reelsFragment"
-        android:icon="@android:drawable/ic_menu_gallery"
-        android:title="Reels" />
-    <item
         android:id="@+id/userProfileFragment"
         android:icon="@drawable/account"
         android:title="Profile" />

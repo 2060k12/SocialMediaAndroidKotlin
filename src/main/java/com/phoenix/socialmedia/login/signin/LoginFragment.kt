@@ -61,8 +61,8 @@ class LoginFragment : Fragment() {
         var password: String
 
         binding.loginButton.setOnClickListener {
-            email = binding.emailTextBox.text.toString()
-            password = binding.passwordTextBox.text.toString()
+            email = binding.emailTextInput.text.toString()
+            password = binding.passwordTextInput.text.toString()
             binding.progressBar.visibility = View.VISIBLE
             // This function will login the user if the
             viewModel.signIn(email = email, password = password) { success ->
@@ -76,8 +76,6 @@ class LoginFragment : Fragment() {
                     Toast.makeText(context, "Error!, Logging In", Toast.LENGTH_SHORT).show()
                 }
             }
-
-
         }
 
 
@@ -85,8 +83,6 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.registerFragment)
 
         }
-
-
     }
 
     override fun onDestroy() {
