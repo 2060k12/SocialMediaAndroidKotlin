@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_homePageFragment_to_messagesOverviewFragment"
             app:destination="@id/messagesOverviewFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_searchedProfileFragment"
+            app:destination="@id/searchedProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -175,6 +178,9 @@
         tools:layout="@layout/following_fragment" >
         <argument
             android:name="email" />
+        <action
+            android:id="@+id/action_followingFragment_to_searchedProfileFragment"
+            app:destination="@id/searchedProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/profilePostViewFragment"

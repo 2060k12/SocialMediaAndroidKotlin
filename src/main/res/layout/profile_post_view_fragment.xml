@@ -66,7 +66,7 @@
     <TextView
         android:id="@+id/commentClickedPostView"
         android:layout_width="0dp"
-        android:layout_height="27dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
@@ -75,4 +75,15 @@
         app:layout_constraintBottom_toTopOf="@+id/commentClickPostButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scaleType="centerCrop"
+        android:src="@drawable/trash"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentClickedPostView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

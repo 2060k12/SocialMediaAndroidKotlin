@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/storyCardView"
         android:layout_width="73dp"
         android:layout_height="73dp"
         android:layout_marginEnd="8dp"
