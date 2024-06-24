@@ -89,6 +89,31 @@ class ProfileRepository {
 
     }
 
+    fun getUserProfileDetails(email: String, callback : (Profile) -> Unit) {
+
+        var tempProfile: Profile
+        val docRef = db.collection("users").document(email)
+
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    tempProfile = document.toObject<Profile>() ?: Profile("", "", "", "", "")
+                    callback(tempProfile)
+                } else {
+                    Log.d("TAG", "No such document")
+                    callback(Profile("","","","",""))
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+                callback(Profile("","","","",""))
+
+            }
+
+
+    }
+
+
 
     // Function to get the images uploaded by the user
     fun getUserAddedImages(userEmail: String) {

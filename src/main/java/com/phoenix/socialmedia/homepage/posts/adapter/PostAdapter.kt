@@ -15,11 +15,14 @@ import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.databinding.PostsRecyclerViewBinding
 import com.phoenix.socialmedia.homepage.HomePageViewModel
 import com.phoenix.socialmedia.homepage.posts.comment.CommentViewModel
+import com.phoenix.socialmedia.profile.ProfileViewModel
 import com.squareup.picasso.Picasso
 
 class PostAdapter (private val postList: ArrayList<Post>, private val navController: NavController ) :RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     lateinit var binding: PostsRecyclerViewBinding
     private val viewModel: HomePageViewModel = HomePageViewModel()
+    private val profileViewModel: ProfileViewModel = ProfileViewModel()
+
     private val commentViewModel: CommentViewModel = CommentViewModel()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -89,6 +92,17 @@ class PostAdapter (private val postList: ArrayList<Post>, private val navControl
             bundle.putParcelable("postInfo", currentItem)
             navController.navigate(R.id.action_homePageFragment_to_commentFragment, bundle)
 //            navController.navigate(R.id.action_userProfileFragment_to_commentFragment, bundle)
+        }
+
+        holder.userProfileImage.setOnClickListener{
+            val bundle =  Bundle()
+
+            profileViewModel.getUserProfileDetails(currentItem.email)
+            {
+                bundle.putParcelable("profile_info", it)
+                navController.navigate(R.id.action_homePageFragment_to_searchedProfileFragment, bundle)
+            }
+
         }
 
     }

@@ -7,23 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.FollowingFragmentBinding
 import com.phoenix.socialmedia.databinding.FollowingUsersRecyclerViewBinding
 import com.phoenix.socialmedia.profile.ProfileViewModel
 import com.phoenix.socialmedia.profile.adapter.FollowingListAdapter
+import com.phoenix.socialmedia.utils.OnItemClickListener
 
-class FollowingFragment : Fragment() {
+class FollowingFragment : Fragment(), OnItemClickListener {
 
     lateinit var binding: FollowingFragmentBinding
     lateinit var adapterBinding : FollowingUsersRecyclerViewBinding
 
     private lateinit var recyclerView : RecyclerView
-
+    private val viewModel: ProfileViewModel by viewModels()
 
     companion object {
         fun newInstance() = FollowingFragment()
@@ -63,8 +67,8 @@ class FollowingFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.setHasFixedSize(true)
             if(auth.currentUser?.email.toString() == currentUser )
-            recyclerView.adapter = FollowingListAdapter(followingList, "following", true )
-            else recyclerView.adapter = FollowingListAdapter(followingList, "following", false )
+            recyclerView.adapter = FollowingListAdapter(followingList, "following", true, this)
+            else recyclerView.adapter = FollowingListAdapter(followingList, "following", false, this )
 
 
             followingListLiveData.observe(viewLifecycleOwner){
@@ -80,8 +84,8 @@ class FollowingFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.setHasFixedSize(true)
             if(auth.currentUser?.email.toString() == currentUser )
-            recyclerView.adapter = FollowingListAdapter(followersList, "followers", true)
-            else recyclerView.adapter = FollowingListAdapter(followersList, "followers", false)
+            recyclerView.adapter = FollowingListAdapter(followersList, "followers", true, this)
+            else recyclerView.adapter = FollowingListAdapter(followersList, "followers", false, this)
 
 
             followersListLiveData.observe(viewLifecycleOwner){
@@ -98,7 +102,28 @@ class FollowingFragment : Fragment() {
 
 
 
+        }
+
+    override fun onItemClick(position: Int) {
+        val bundle = Bundle()
+
+        if(followingList.isNotEmpty()){
+        viewModel.getUserProfileDetails(followingList[position].email){
+            bundle.putParcelable("profile_info", it)
+            findNavController().navigate(R.id.action_followingFragment_to_searchedProfileFragment, bundle)
+
+        }}
+
+        else
+        {
+            viewModel.getUserProfileDetails(followersList[position].email){
+                bundle.putParcelable("profile_info", it)
+                findNavController().navigate(R.id.action_followingFragment_to_searchedProfileFragment, bundle)
+
+            }
 
         }
+
+    }
 }
 

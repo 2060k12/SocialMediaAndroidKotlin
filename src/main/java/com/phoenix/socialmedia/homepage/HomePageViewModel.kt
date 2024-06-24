@@ -45,7 +45,11 @@ class HomePageViewModel : ViewModel() {
 
         }}
 
-
+    fun deletePost(postId: String?, email: String?, context : android.content.Context) {
+        homePageRepository.deletePost(postId, email, context)
     }
+
+
+}
 
 

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
@@ -20,6 +22,7 @@ class ProfilePostViewFragment : Fragment() {
     private val viewModel: HomePageViewModel = HomePageViewModel()
     private val commentViewModel: CommentViewModel = CommentViewModel()
 
+    private val auth = Firebase.auth
 
 
     lateinit var binding: ProfilePostViewFragmentBinding
@@ -66,6 +69,13 @@ lateinit var mainActivity: MainActivity
         binding.postViewProgressView.visibility = View.GONE
 
 
+        if(post?.caption?.isEmpty() == true){
+            binding.commentClickedPostView.visibility = View.GONE
+        }
+        else{
+            binding.commentClickedPostView.visibility = View.VISIBLE
+
+        }
 
         binding.commentClickPostButton.setOnClickListener {
             val bundle: Bundle = Bundle()
@@ -85,6 +95,19 @@ lateinit var mainActivity: MainActivity
                 post?.likedByCurrentUser = true
             }
 
+        }
+
+        if(auth.currentUser?.email.toString() == post?.email){
+            binding.deleteButton.visibility = View.VISIBLE
+        }
+        else{
+            binding.deleteButton.visibility = View.GONE
+        }
+
+        // this will delete the current post
+        binding.deleteButton.setOnClickListener{
+            viewModel.deletePost(post?.postId, post?.email, requireContext())
+            findNavController().navigateUp()
         }
 
     }

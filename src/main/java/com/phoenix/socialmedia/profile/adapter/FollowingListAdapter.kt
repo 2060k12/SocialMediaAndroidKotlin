@@ -12,9 +12,10 @@ import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Profile
 import com.phoenix.socialmedia.databinding.FollowingUsersRecyclerViewBinding
 import com.phoenix.socialmedia.profile.ProfileViewModel
+import com.phoenix.socialmedia.utils.OnItemClickListener
 import com.squareup.picasso.Picasso
 
-class FollowingListAdapter(private var followingList : ArrayList<Profile>, private val listName: String, private val isCurrentUser: Boolean) : RecyclerView.Adapter<FollowingListAdapter.FollowingListViewHolder>() {
+class FollowingListAdapter(private var followingList : ArrayList<Profile>, private val listName: String, private val isCurrentUser: Boolean, private val itemClick : OnItemClickListener) : RecyclerView.Adapter<FollowingListAdapter.FollowingListViewHolder>() {
     private lateinit var binding : FollowingUsersRecyclerViewBinding
     private val profileViewMode = ProfileViewModel()
 
@@ -23,6 +24,13 @@ class FollowingListAdapter(private var followingList : ArrayList<Profile>, priva
         val uerProfileImage : ImageView = itemView.findViewById(R.id.followingUserProfileImageView)
         val followingUserName : TextView = itemView.findViewById(R.id.followingUserNameTextView)
         val removeFollowingButton: Button = itemView.findViewById(R.id.removeFollowingButton)
+
+        init {
+            itemView.setOnClickListener(){
+                itemClick.onItemClick(layoutPosition)
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingListViewHolder {

@@ -1,5 +1,6 @@
 package com.phoenix.socialmedia.homepage.posts.comment
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -37,6 +38,7 @@ class CommentFragment : DialogFragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,10 +61,11 @@ class CommentFragment : DialogFragment() {
             
         }
 
+        val adapter = CommentAdapter(commentArrayList)
         recyclerView = binding.commentViewRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = CommentAdapter(commentArrayList)
+        recyclerView.adapter = adapter
 
 
     viewModel.comments.observe(viewLifecycleOwner){
@@ -70,13 +73,10 @@ class CommentFragment : DialogFragment() {
         commentArrayList.addAll(it)
         recyclerView.adapter?.notifyDataSetChanged()
     }
-
         viewModel.getAllComments(email!!,postId!!)
-
-
-
-
     }
+
+
 
     override fun onStart() {
         super.onStart()

@@ -46,6 +46,10 @@ class ProfileViewModel : ViewModel() {
         profileRepository.getUserProfileDetails(email)
 
     }
+    fun getUserProfileDetails(email: String, callback : (Profile)-> Unit ){
+        profileRepository.getUserProfileDetails(email, callback)
+
+    }
 
 
     // Function to get the images uploaded by the user

@@ -2,6 +2,7 @@ package com.phoenix.socialmedia.data.repositories
 
 import android.text.format.DateUtils
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Firebase
@@ -264,7 +265,7 @@ class HomePageRepository {
                     }
 
 
-                    else if (story.email in followingEmails ){
+                    else if (story.email in followingEmails || story.email == auth.currentUser?.email.toString() ){
                         storyList.add(story)
                     }
                 }
@@ -305,6 +306,19 @@ class HomePageRepository {
                 Log.i("Failed", it.message.toString())
             }
 
+    }
+
+    fun deletePost(postId: String?, email: String?, context :android.content.Context) {
+
+        db.collection("users")
+            .document(email!!)
+            .collection("post")
+            .document(postId!!)
+            .delete()
+            .addOnSuccessListener {
+
+                Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
