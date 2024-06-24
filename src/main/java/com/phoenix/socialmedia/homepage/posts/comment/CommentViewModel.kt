@@ -28,4 +28,9 @@ class CommentViewModel : ViewModel() {
     fun getAllComments(postUserEmail: String, postId: String){
     homePageRepository.getALlComments(postUserEmail, postId)    }
 
+    fun deleteLike(email: String, postId: String) {
+        homePageRepository.deleteLike(email, postId)
+
+    }
+
 }

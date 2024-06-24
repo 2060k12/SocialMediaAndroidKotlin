@@ -12,14 +12,21 @@ import com.phoenix.socialmedia.MainActivity
 import com.phoenix.socialmedia.R
 import com.phoenix.socialmedia.data.Post
 import com.phoenix.socialmedia.databinding.ProfilePostViewFragmentBinding
+import com.phoenix.socialmedia.homepage.HomePageViewModel
+import com.phoenix.socialmedia.homepage.posts.comment.CommentViewModel
 import com.squareup.picasso.Picasso
 
 class ProfilePostViewFragment : Fragment() {
+    private val viewModel: HomePageViewModel = HomePageViewModel()
+    private val commentViewModel: CommentViewModel = CommentViewModel()
 
- lateinit var binding: ProfilePostViewFragmentBinding
+
+
+    lateinit var binding: ProfilePostViewFragmentBinding
  val post @RequiresApi(Build.VERSION_CODES.TIRAMISU)
  get() =  arguments?.getParcelable("postInformation", Post::class.java)
 lateinit var mainActivity: MainActivity
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +35,18 @@ lateinit var mainActivity: MainActivity
         mainActivity = requireActivity() as MainActivity
         mainActivity.actionBar("", R.drawable.add, showBarState = false, false)
         mainActivity.getNavigationBar().visibility = View.GONE
+        viewModel.isPostLiked(post?.postId!!, post?.email!!){
+                state ->
+            if (state){
+                post?.likedByCurrentUser = true
+                binding.likeClickedPostButton.setImageResource(R.drawable.heart)
+            }
+            else {
+                post?.likedByCurrentUser = false
+                binding.likeClickedPostButton.setImageResource(R.drawable.heart_empty)
+            }
 
+        }
         // Inflate the layout for this fragment
         binding = ProfilePostViewFragmentBinding.inflate(inflater, container, false)
         binding.postViewProgressView.visibility = View.VISIBLE
@@ -41,12 +59,13 @@ lateinit var mainActivity: MainActivity
         Picasso.get().load(post?.imageUrl.toString()).rotate(90f).into(binding.clickedPostImageView)
         if(post?.caption.toString().isNotEmpty()){
             binding.commentClickedPostView.text = post?.caption.toString()
-
         }
         else{
             binding.commentClickedPostView.visibility = View.GONE
         }
         binding.postViewProgressView.visibility = View.GONE
+
+
 
         binding.commentClickPostButton.setOnClickListener {
             val bundle: Bundle = Bundle()
@@ -54,8 +73,19 @@ lateinit var mainActivity: MainActivity
             findNavController().navigate(R.id.action_profilePostViewFragment_to_commentFragment, bundle)
 
         }
+        binding.likeClickedPostButton.setOnClickListener {
+            if (post?.likedByCurrentUser!!) {
+                binding.likeClickedPostButton.setImageResource(R.drawable.heart_empty)
+                commentViewModel.deleteLike(email = post?.email!!, postId = post?.postId!!)
 
+                post?.likedByCurrentUser = false
+            } else {
+                binding.likeClickedPostButton.setImageResource(R.drawable.heart)
+                commentViewModel.likeThePost(email = post?.email!!, postId = post?.postId!!)
+                post?.likedByCurrentUser = true
+            }
 
+        }
 
     }
 

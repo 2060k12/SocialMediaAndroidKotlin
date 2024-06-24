@@ -82,7 +82,6 @@ class MessageFragment : Fragment() {
             viewModel.getMessage(sendMessageTo!!)
             if (message.size > messageList.size) {
                 setStatus()
-
                 val newMessages = message.subList(messageList.size, message.size)
                 messageList.addAll(newMessages)
                 recyclerView.adapter?.notifyItemRangeInserted(messageList.size, newMessages.size)

@@ -64,9 +64,8 @@ class HomePageRepository {
                             }
 
                         }
-//                            this will update the list when all post has been processed
                             postList.sortByDescending { it.time.seconds }
-//                            fetchAllPostLikes(postList)
+
 
                             _posts.value = postList
                     }
@@ -79,17 +78,10 @@ class HomePageRepository {
             }
     }
 
-    private fun fetchAllPostLikes(postList: ArrayList<Post>) {
-        postList.forEach {
-            post  ->
-            isPostLiked(postId = post.postId, postUploadedBy = post.email){
-                post.likedByCurrentUser = it
-            }
-        }
-        _posts.value = postList
-    }
 
-    fun isPostLiked(postId: String, postUploadedBy: String, callback: ( Boolean) -> Unit) {
+
+    // Checks if the current post was liked
+    suspend fun isPostLiked(postId: String, postUploadedBy: String, callback: ( Boolean) -> Unit) {
         db.collection("users")
             .document(postUploadedBy)
             .collection("post")
@@ -98,12 +90,14 @@ class HomePageRepository {
             .get()
             .addOnSuccessListener {
                     document ->
-                for (doc in document){
-                    if(doc.id.contains (auth.currentUser?.email.toString()) ) {
-                        callback(true)
+                var isLiked = false
+                    for (doc in document){
+                    if(doc.id.lowercase() == auth.currentUser?.email.toString().lowercase()) {
+                        isLiked = true
+                        break
                     }
-                }
-
+                    }
+                callback(isLiked)
             }
             .addOnFailureListener{
                 callback(false)
@@ -117,14 +111,14 @@ class HomePageRepository {
     fun likeThePost(postId: String, email: String) {
 
         val newCollection = hashMapOf(
-            "email" to email)
+            "email" to auth.currentUser?.email.toString())
 
         db.collection("users")
             .document(email)
             .collection("post")
             .document(postId)
             .collection("like")
-            .document(email)
+            .document(auth.currentUser?.email.toString())
             .set(newCollection)
             .addOnSuccessListener{
                 Log.i("Success", "$postId $email Successfully added")
@@ -135,6 +129,7 @@ class HomePageRepository {
 
     }
 
+    // FUnction to comment on a post
     fun commentOnThePost(postId: String, email: String, comment: String){
         val newCollection = hashMapOf(
             "email" to auth.currentUser?.email.toString(),
@@ -157,10 +152,12 @@ class HomePageRepository {
     }
 
 
+    // gets the current loggedIn user
     fun getCurrentUser() : String {
         return auth.currentUser?.email.toString()
     }
 
+    // This function helps get User Profile Image and Name and return them as a callback which can directly be used when function is called
     fun getUserProfileImage(email: String, callback :(String, String)-> Unit ){
         var profile : Profile
         val profileUrl = db.collection("users")
@@ -173,6 +170,9 @@ class HomePageRepository {
             }
     }
 
+
+    // function to get all the comments of a particular post
+    // This function takes the email of the user of a post and also the post Id
     fun getALlComments(postUserEmail: String, postId: String){
 
         val commentList = ArrayList<Comments>()
@@ -196,6 +196,10 @@ class HomePageRepository {
 
     }
 
+
+    // Function to get the time difference of current system time and the time a post was uploaded to the database
+    //It returns a string which says how much time has passed since a particular post was uploaded in simple form
+    // For example if a post was from 3 days, it will return "3d ago"
     fun getTimeDifference(time:Long): String
     {
         val now = System.currentTimeMillis()
@@ -223,6 +227,8 @@ class HomePageRepository {
 
     }
 
+
+    // Async function to get all stories, also if any story if older than 1day, it will be deleted before User can see it
     suspend fun getAllStory() {
         val storyList = ArrayList<Story>()
         val currentUserEmail = auth.currentUser?.email.toString()
@@ -277,6 +283,28 @@ class HomePageRepository {
            catch (e: Exception){
                 Log.i("Error Fetching Story", e.toString())
             }
+    }
+
+    fun deleteLike(email: String, postId: String) {
+
+
+        val newCollection = hashMapOf(
+            "email" to auth.currentUser?.email.toString())
+
+        db.collection("users")
+            .document(email)
+            .collection("post")
+            .document(postId)
+            .collection("like")
+            .document(auth.currentUser?.email.toString())
+            .delete()
+            .addOnSuccessListener{
+                Log.i("Success", "$postId $email Successfully added")
+            }
+            .addOnFailureListener{
+                Log.i("Failed", it.message.toString())
+            }
+
     }
 
 

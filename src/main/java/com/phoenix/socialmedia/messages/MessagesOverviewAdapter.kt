@@ -3,6 +3,7 @@ package com.phoenix.socialmedia.messages
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.phoenix.socialmedia.databinding.MessageOverviewRecyclerViewBinding
@@ -20,6 +21,7 @@ class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String
         val profileImage = binding.messageOfImageView
         val userName = binding.messageOfUserName
         val messageStatusChip :Chip = binding.messageStatusChip
+        val messageCardView : CardView = binding.messageCardView
 
         init {
 
@@ -60,7 +62,5 @@ class MessagesOverviewAdapter(private val messagesSendersList : ArrayList<String
 
 
         }
-
     }
-
 }

@@ -55,7 +55,7 @@ class LoadClickedImageFragment : Fragment() {
                     val timeStamp :java.util.Date = Timestamp.now().toDate()
                     viewModel.uploadPost(caption,downloadUrl.toString(), timeStamp){uploadSuccess ->
                         if(uploadSuccess){
-                            var navController : NavController = findNavController()
+                            val navController : NavController = findNavController()
                             navController.navigate(R.id.action_loadClickedImageFragment_to_homePageFragment)
                             binding.uploadImageProgressBar.visibility = View.GONE
 
@@ -74,12 +74,16 @@ class LoadClickedImageFragment : Fragment() {
 
         binding.addToStoryButton.setOnClickListener {
             val timeStamp :java.util.Date = Timestamp.now().toDate()
+            binding.uploadImageProgressBar.visibility = View.VISIBLE
 
             viewModel.uploadImage(imageUrl!!){
                 downloadUrl ->
                     if (downloadUrl != null){
                         val timeStamp :java.util.Date = Timestamp.now().toDate()
                         viewModel.uploadStory(downloadUrl, timeStamp)
+                        val navController : NavController = findNavController()
+                        navController.navigate(R.id.action_loadClickedImageFragment_to_homePageFragment)
+                        binding.uploadImageProgressBar.visibility = View.GONE
                     }
 
             }

@@ -21,10 +21,13 @@
         android:id="@+id/cardView7"
         android:layout_width="409dp"
         android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/commentClickedPostView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/clickedPostImageView"
@@ -44,7 +47,7 @@
         android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
         android:scaleType="centerCrop"
-        android:src="@drawable/heart"
+        android:src="@drawable/heart_empty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

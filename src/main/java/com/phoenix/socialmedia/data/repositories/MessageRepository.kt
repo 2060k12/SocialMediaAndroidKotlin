@@ -84,7 +84,7 @@ class MessageRepository {
                     "messageContent" to messageContent,
                     "messageTimeStamp" to timestamp)
 
-                    var receiverMessages = db.collection("users")
+                    val receiverMessages = db.collection("users")
                     .document(messageOf)
                     .collection("messages")
                     .document(auth.currentUser?.email.toString())
@@ -127,7 +127,7 @@ class MessageRepository {
     // messageOf is a variable which contains the other user with whom the conversation is held in between
     suspend fun setReadStatus(messageOf: String) {
         try {
-            var messagesRef = db.collection("users")
+            val messagesRef = db.collection("users")
                 .document(auth.currentUser?.email.toString())
                 .collection("messages")
                 .document(messageOf)

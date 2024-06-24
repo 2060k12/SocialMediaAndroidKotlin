@@ -40,8 +40,12 @@ class HomePageViewModel : ViewModel() {
     }
 
     fun isPostLiked(postId: String, postedBy: String, callback: (Boolean) -> Unit) {
-        return homePageRepository.isPostLiked(postId, postedBy, callback)
+        viewModelScope.launch {
+            return@launch homePageRepository.isPostLiked(postId, postedBy, callback)
+
+        }}
+
+
     }
 
 
-}
