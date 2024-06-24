@@ -1,7 +1,7 @@
 # InstaClone
 
 A social media app- Instagram clone
-No tutorials Followed or copied
+- No tutorials Followed or copied
 
 ## Features
 
