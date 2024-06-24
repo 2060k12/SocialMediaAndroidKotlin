@@ -1,13 +1,17 @@
 package com.phoenix.socialmedia.profile.editUserProfile
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
@@ -52,6 +56,7 @@ class EditProfileFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n", "IntentReset")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -83,6 +88,7 @@ class EditProfileFragment : Fragment() {
         binding.logOutButton.setOnClickListener {
             Firebase.auth.signOut()
             findNavController().navigate(R.id.action_editProfile_to_loginFragment)
+
         }
 
         // editProfileImage
@@ -93,6 +99,27 @@ class EditProfileFragment : Fragment() {
 
 
         }
+
+        binding.deleteAccountButton.setOnClickListener{
+            val button = Button(requireContext())
+            button.text = "Confirm Delete"
+            button.setBackgroundColor(Color.RED)
+            button.setTextColor(Color.WHITE)
+
+            // alert box
+            val alert =AlertDialog.Builder(context)
+                .setView(
+                   button
+                ).show()
+
+
+            button.setOnClickListener{
+                viewModel.deleteAccount()
+                findNavController().navigate(R.id.action_editProfile_to_loginFragment)
+            }
+        }
+
+
     }
     private fun editInformation(editType: String, editInformation: String){
         val bundle = bundleOf(
@@ -100,9 +127,11 @@ class EditProfileFragment : Fragment() {
             "editInformation" to editInformation
         )
 
-        findNavController().navigate(R.id.action_editProfile_to_editProfileInformationFragment, bundle)
+        findNavController().navigate(R.id.action_editProfile_to_loginFragment, bundle)
 
     }
+
+
 
 
     @Deprecated("Deprecated in Java")

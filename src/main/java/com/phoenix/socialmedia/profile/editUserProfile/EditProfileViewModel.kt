@@ -15,4 +15,8 @@ class EditProfileViewModel : ViewModel() {
         profileRepository.updateProfileImage(selectedImageUri)
 
     }
+
+    fun deleteAccount() {
+        profileRepository.deleteAccount()
+    }
 }

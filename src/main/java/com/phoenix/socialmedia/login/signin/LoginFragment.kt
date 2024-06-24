@@ -1,10 +1,12 @@
 package com.phoenix.socialmedia.login.signin
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -54,6 +56,7 @@ class LoginFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -63,9 +66,10 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             email = binding.emailTextInput.text.toString()
             password = binding.passwordTextInput.text.toString()
-            binding.progressBar.visibility = View.VISIBLE
-            // This function will login the user if the
-            viewModel.signIn(email = email, password = password) { success ->
+            // This function will login the user
+            if(email.isNotEmpty() && password.isNotEmpty()){
+                binding.progressBar.visibility = View.VISIBLE
+                viewModel.signIn(email = email, password = password) { success ->
                 if (success) {
                     binding.progressBar.visibility = View.GONE
                     findNavController().navigate(R.id.action_loginFragment_to_homePageFragment)
@@ -76,6 +80,10 @@ class LoginFragment : Fragment() {
                     Toast.makeText(context, "Error!, Logging In", Toast.LENGTH_SHORT).show()
                 }
             }
+            }
+            else{
+                Toast.makeText(context, "Enter Both Email and Password First", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -85,8 +93,10 @@ class LoginFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         mainActivity.getNavigationBar().visibility = View.VISIBLE
+
     }
+
 }

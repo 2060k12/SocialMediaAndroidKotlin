@@ -45,23 +45,27 @@ class RegisterFragment : Fragment() {
             var password = binding.passwordTextBox.text.toString()
             var userName = binding.userNameTextBox.text.toString()
             var name = binding.nameTextBox.text.toString()
-            binding.registerProgressBar.visibility = View.VISIBLE
 
+            if(email.isNotEmpty() && password.isNotEmpty() && userName.isNotEmpty() && name.isNotEmpty()) {
+                binding.registerProgressBar.visibility = View.VISIBLE
 
-            // TODO: Change the hardcoded value, make a new ui for Register page
-            viewModel.signUp(
-                email = email,
-                password = password,
-                userName = userName,
-                name = name
-            ) { success ->
-                if (success) {
-                    binding.registerProgressBar.visibility = View.GONE
-                    findNavController().navigate(R.id.action_registerFragment_to_homePageFragment)
-                } else {
-                    binding.registerProgressBar.visibility = View.GONE
-                    Toast.makeText(context, "Error!, Signing In", Toast.LENGTH_SHORT).show()
+                viewModel.signUp(
+                    email = email,
+                    password = password,
+                    userName = userName,
+                    name = name
+                ) { success ->
+                    if (success) {
+                        binding.registerProgressBar.visibility = View.GONE
+                        findNavController().navigate(R.id.action_registerFragment_to_homePageFragment)
+                    } else {
+                        binding.registerProgressBar.visibility = View.GONE
+                        Toast.makeText(context, "Error!, Signing In", Toast.LENGTH_SHORT).show()
+                    }
                 }
+            }
+            else{
+                Toast.makeText(context, "Fill all field", Toast.LENGTH_SHORT).show()
             }
         }
 
