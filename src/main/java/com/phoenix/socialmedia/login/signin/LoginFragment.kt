@@ -93,10 +93,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mainActivity.getNavigationBar().visibility = View.VISIBLE
 
-    }
 
 }

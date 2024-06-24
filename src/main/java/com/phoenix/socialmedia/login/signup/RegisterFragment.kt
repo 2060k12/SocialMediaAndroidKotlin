@@ -70,8 +70,5 @@ class RegisterFragment : Fragment() {
         }
 
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        mainActivity.getNavigationBar().visibility = View.VISIBLE
-    }
+
 }

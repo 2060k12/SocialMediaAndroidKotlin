@@ -338,11 +338,11 @@ class ProfileRepository {
     }
 
     fun deleteAccount() {
-        db.collection("users")
-            .document(auth.currentUser?.email.toString()).delete()
-            .addOnSuccessListener{
+//        db.collection("users")
+//            .document(auth.currentUser?.email.toString()).delete()
+//            .addOnSuccessListener{
                 auth.currentUser?.delete()
-            }
+//            }
     }
 
 }

@@ -56,6 +56,7 @@ class HomePageFragment : Fragment(), OnItemClickListener{
         // Setting up action bar
         val mainActivity = requireActivity() as MainActivity
         mainActivity.actionBar("Home", R.drawable.add, showBarState = true)
+        mainActivity.getNavigationBar().visibility = View.VISIBLE
 
 
         // binding for our view

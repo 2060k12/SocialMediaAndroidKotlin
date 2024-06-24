@@ -112,7 +112,6 @@ class EditProfileFragment : Fragment() {
                    button
                 ).show()
 
-
             button.setOnClickListener{
                 viewModel.deleteAccount()
                 findNavController().navigate(R.id.action_editProfile_to_loginFragment)
@@ -127,7 +126,7 @@ class EditProfileFragment : Fragment() {
             "editInformation" to editInformation
         )
 
-        findNavController().navigate(R.id.action_editProfile_to_loginFragment, bundle)
+        findNavController().navigate(R.id.action_editProfile_to_editProfileInformationFragment, bundle)
 
     }
 
